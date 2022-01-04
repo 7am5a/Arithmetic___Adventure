@@ -1,0 +1,76 @@
+﻿using Arithmetic___Adventure.Core;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Arithmetic___Adventure.Scenes
+{
+    internal class MenuScene : Component
+    {
+        //ograniczenie liczby przycisków odgórnie
+        private const int MAX_BUTTONS = 3;
+
+        //dodanie przycisków
+        private Texture2D[] menuButtons = new Texture2D[MAX_BUTTONS];
+        //stworzenie prostokąta wspierajacego tę teksturę
+        private Rectangle[] menuButtonsRect = new Rectangle[MAX_BUTTONS];
+
+        //dodanie myszki
+        private MouseState mouseState, oldMouseState;
+        private Rectangle mouseStateRect;
+
+        internal override void LoadContent(ContentManager Content)
+        {
+
+            const int INCREMENT_VALUE = 125;
+            //tworzenie przycisków ale z gotowych bloczklów bez wpisywania napisów do środka
+            for(int i = 0; i < menuButtons.Length; i++)
+            {
+                menuButtons[i] = Content.Load<Texture2D>("Textures/button3"); //"$nazwa_pliku{i}"
+                menuButtonsRect[i] = new Rectangle(Data.ScreenWid /2 - menuButtons[i].Height, 200 + INCREMENT_VALUE * i, menuButtons[i].Width /2, menuButtons[i].Height /2);
+            }
+        }
+
+        internal override void Update(GameTime gameTime)
+        {
+            //klikanie
+            oldMouseState = mouseState;
+            mouseState = Mouse.GetState();
+            mouseStateRect = new Rectangle(mouseState.X, mouseState.Y, 1, 1);
+
+            //wejście do gry - przycisk pierwszy
+            if(mouseState.LeftButton == ButtonState.Pressed && mouseStateRect.Intersects(menuButtonsRect[0]))
+            {
+                Data.CurrentState = Data.Scenes.Game;
+            }
+            //wyjście z gry - przycisk ostatni (3)
+
+            else if(mouseState.LeftButton == ButtonState.Pressed && mouseStateRect.Intersects(menuButtonsRect[2]))
+            {
+                Data.Exit = true;
+            }
+
+        }
+
+        internal override void Draw(SpriteBatch spriteBatch)
+        {
+
+            //rysowanie przycisków w pętli
+            for (int i = 0; i < menuButtons.Length; i++)
+            {
+                spriteBatch.Draw(menuButtons[i], menuButtonsRect[i], Color.White);
+                if (mouseStateRect.Intersects(menuButtonsRect[i]))
+                {
+                    spriteBatch.Draw(menuButtons[i], menuButtonsRect[i], Color.Gray);
+                }
+            }
+
+
+        }
+
+    }
+}
