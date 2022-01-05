@@ -11,6 +11,10 @@ namespace Arithmetic___Adventure.Scenes
 {
     internal class MenuScene : Component
     {
+        //tło
+        private Texture2D backgroundMenu;
+        private Rectangle backgroundMenuRect;
+
         //ograniczenie liczby przycisków odgórnie
         private const int MAX_BUTTONS = 3;
 
@@ -25,12 +29,15 @@ namespace Arithmetic___Adventure.Scenes
 
         internal override void LoadContent(ContentManager Content)
         {
+            // załadowanie tego powyzej do gierki
+            backgroundMenu = Content.Load<Texture2D>("Textures/MenuBackground1");
+            backgroundMenuRect = new Rectangle(0, 0, Data.ScreenWid, Data.ScreenHei);
 
             const int INCREMENT_VALUE = 125;
             //tworzenie przycisków ale z gotowych bloczklów bez wpisywania napisów do środka
             for(int i = 0; i < menuButtons.Length; i++)
             {
-                menuButtons[i] = Content.Load<Texture2D>("Textures/button3"); //"$nazwa_pliku{i}"
+                menuButtons[i] = Content.Load<Texture2D>($"Textures/bttn{i}"); //"$nazwa_pliku{i}" //"Textures/$bttn{i}"
                 menuButtonsRect[i] = new Rectangle(Data.ScreenWid /2 - menuButtons[i].Height, 200 + INCREMENT_VALUE * i, menuButtons[i].Width /2, menuButtons[i].Height /2);
             }
         }
@@ -42,7 +49,7 @@ namespace Arithmetic___Adventure.Scenes
             mouseState = Mouse.GetState();
             mouseStateRect = new Rectangle(mouseState.X, mouseState.Y, 1, 1);
 
-            //wejście do gry - przycisk pierwszy
+            //wejście do gry - przycisk pierwszy (1)
             if(mouseState.LeftButton == ButtonState.Pressed && mouseStateRect.Intersects(menuButtonsRect[0]))
             {
                 Data.CurrentState = Data.Scenes.Game;
@@ -58,7 +65,10 @@ namespace Arithmetic___Adventure.Scenes
 
         internal override void Draw(SpriteBatch spriteBatch)
         {
-
+            
+            //rysowanie tła
+            spriteBatch.Draw(backgroundMenu,backgroundMenuRect,Color.White);
+            
             //rysowanie przycisków w pętli
             for (int i = 0; i < menuButtons.Length; i++)
             {
