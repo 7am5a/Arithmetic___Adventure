@@ -53,6 +53,7 @@ namespace Arithmetic___Adventure.Scenes
             if(mouseState.LeftButton == ButtonState.Pressed && mouseStateRect.Intersects(menuButtonsRect[0]))
             {
                 Data.CurrentState = Data.Scenes.Game;
+                
             }
             //wyjście z gry - przycisk ostatni (3)
 
