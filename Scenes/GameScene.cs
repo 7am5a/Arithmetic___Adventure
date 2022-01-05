@@ -1,5 +1,4 @@
-﻿using System;
-using Arithmetic___Adventure.Core;
+﻿using Arithmetic___Adventure.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -47,7 +46,7 @@ namespace Arithmetic___Adventure.Scenes
         double timer = 0;
 
 
-        const int LEVEL = 55; 
+        const int LEVEL = 7; 
         //dodanie cegieł---------------------------        
         private Texture2D[] brick = new Texture2D[LEVEL];
         //stworzenie prostokąta wspierajacego tę teksturę
@@ -95,7 +94,7 @@ namespace Arithmetic___Adventure.Scenes
             int randBrick;
 
             int brickLvlUp = 0;
-            int brickPomoc = 0;
+            int brickLicznik = 0;
             
             for (int i = 0; i < LEVEL; i++)
             {
@@ -103,26 +102,49 @@ namespace Arithmetic___Adventure.Scenes
                 randBrick = randBrickGen.Next(1, 4);
                 brick[i] = Content.Load<Texture2D>($"Textures/ceg{randBrick}");
 
-                //zwiększanie poziomu--------------------------------------------
-                if (i % 5 == 0 && i != 0)
+                //zwiększanie poziomu budowania--------------------------------------------
+                
+                //rysowanie nieparzystych rzędów (liczymy od 0 :p)
+                if(brickLvlUp % 2 == 0)
                 {
-                    //podniesienie poziomu budowania
-                    brickLvlUp = brickLvlUp + 1;
+                    brickRect[i] = new Rectangle(250 + 6 * (i % 5) + ((i % 5) * brick[i].Width * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30, 140, 40);
+                    brickLicznik += 1;
 
-                    //warunek do rysowania 6 cegieł w co 2 rzędzie
-                    if (brickLvlUp % 2 == 0 && brickLvlUp % 5 == 4)
+                    if(brickLicznik == 5)
                     {
-                        brickPomoc = 1;
+                        brickLvlUp += 1;
+                        brickLicznik = 0;
                     }
                 }
 
-                //tutaj skalowanie trzeba będzie ogarnąć
-                brickRect[i] = new Rectangle(250 + 6* (i%5) + ((i%5)*brick[i].Width*2/3) , 535 - brickLvlUp* 9 - brickLvlUp*30, 140, 40);
-
-                if(brickPomoc == 1)
+                //rysowanie parzystych rzędów----------------
+                else if (brickLvlUp % 2 == 1)
                 {
-                    brickPomoc = 0;
+                    if (brickLicznik == 1)
+                    {
+                        brickRect[i] = new Rectangle(250 + 6 * (i % 6) + ((i % 6) * brick[i].Width * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30, 70, 40);
+                        brickLicznik += 1;
+                    }
+                    else if(brickLicznik == 0)
+                    {
+                        brickRect[i] = new Rectangle(180 + 6 * (i % 6) + ((i % 6) * brick[i].Width * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30, 70, 40);
+                        brickLicznik += 1;
+
+                        if (brickLicznik == 6)
+                        {
+                            brickLvlUp += 1;
+                            brickLicznik = 0;
+                        }
+                    }
+                    
+                    else 
+                    {
+                        brickRect[i] = new Rectangle(320 + 6 * (i % 6) + ((i % 6) * brick[i].Width * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30, 140, 40);
+                        brickLicznik += 1;
+                    }
+
                 }
+
             }
 
         }
