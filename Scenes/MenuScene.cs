@@ -38,7 +38,7 @@ namespace Arithmetic___Adventure.Scenes
             for(int i = 0; i < menuButtons.Length; i++)
             {
                 menuButtons[i] = Content.Load<Texture2D>($"Textures/bttn{i}"); //"$nazwa_pliku{i}" //"Textures/$bttn{i}"
-                menuButtonsRect[i] = new Rectangle(Data.ScreenWid /2 - menuButtons[i].Height, 200 + INCREMENT_VALUE * i, menuButtons[i].Width /2, menuButtons[i].Height /2);
+                menuButtonsRect[i] = new Rectangle(Data.ScreenWid /2 - menuButtons[i].Height /2, 200 + INCREMENT_VALUE * i, menuButtons[i].Width /2, menuButtons[i].Height /2);
             }
         }
 
