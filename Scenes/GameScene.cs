@@ -11,6 +11,9 @@ namespace Arithmetic___Adventure.Scenes
 {
     internal class GameScene : Component
     {
+        //zmienne do punktów
+        int score = -1;
+        bool mousesReleased = true;
 
         //tło
         private Texture2D backgroundGame;
@@ -46,18 +49,27 @@ namespace Arithmetic___Adventure.Scenes
         double timer = 0;
 
 
-        const int LEVEL = 7; 
+        const int LEVEL = 49;
         //dodanie cegieł---------------------------        
         private Texture2D[] brick = new Texture2D[LEVEL];
         //stworzenie prostokąta wspierajacego tę teksturę
         private Rectangle[] brickRect = new Rectangle[LEVEL];
+
+       // private Brick[] brickCastle = new Brick[LEVEL];
+
+        //private List<Brick> brickCastle;
+        
         //-----------------------------------------
 
         internal override void LoadContent(ContentManager Content)
         {
+
+            //brickCastle = new List<Brick>();
+
+
             timer = 0;
 
-            // załadowanie tego powyzej do gierki
+            // załadowanie tła
             backgroundGame = Content.Load<Texture2D>("Textures/tlo1");
             backgroundGameRect = new Rectangle(0, 0, Data.ScreenWid, Data.ScreenHei);
 
@@ -84,12 +96,7 @@ namespace Arithmetic___Adventure.Scenes
             menuButtons[2] = Content.Load<Texture2D>("Textures/pusty_2"); 
             menuButtonsRect[2] = new Rectangle(Data.ScreenWid * 2 / 5 + 45 + 190*2 - 5 + 57, Data.ScreenHei - 77 , 283, 75);
             //---------------------------------------
-
-            // załadowanie cegieł szer 70 lub 140 x 40
-            //brick = Content.Load<Texture2D>("Textures/ceg1");
-            //brickRect = new Rectangle(400, 400, 70, brick.Height);
-
-            
+            //zmienna do losowego wybierania tekstury cegły            
             Random randBrickGen = new Random();
             int randBrick;
 
@@ -98,12 +105,10 @@ namespace Arithmetic___Adventure.Scenes
             
             for (int i = 0; i < LEVEL; i++)
             {
-
                 randBrick = randBrickGen.Next(1, 4);
+
                 brick[i] = Content.Load<Texture2D>($"Textures/ceg{randBrick}");
 
-                //zwiększanie poziomu budowania--------------------------------------------
-                
                 //rysowanie nieparzystych rzędów (liczymy od 0 :p)
                 if(brickLvlUp % 2 == 0)
                 {
@@ -116,18 +121,17 @@ namespace Arithmetic___Adventure.Scenes
                         brickLicznik = 0;
                     }
                 }
-
                 //rysowanie parzystych rzędów----------------
                 else if (brickLvlUp % 2 == 1)
                 {
-                    if (brickLicznik == 1)
+                    if (brickLicznik == 0)
                     {
-                        brickRect[i] = new Rectangle(250 + 6 * (i % 6) + ((i % 6) * brick[i].Width * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30, 70, 40);
+                        brickRect[i] = new Rectangle(250 + 6 * (brickLicznik % 6) + ((brickLicznik % 6) * brick[i].Width * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30, 70, 40);
                         brickLicznik += 1;
                     }
-                    else if(brickLicznik == 0)
+                    else if(brickLicznik == 5)
                     {
-                        brickRect[i] = new Rectangle(180 + 6 * (i % 6) + ((i % 6) * brick[i].Width * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30, 70, 40);
+                        brickRect[i] = new Rectangle(180 + 2 + 6 * (brickLicznik % 6) + ((brickLicznik % 6) * brick[i].Width * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30, 70, 40);
                         brickLicznik += 1;
 
                         if (brickLicznik == 6)
@@ -136,17 +140,13 @@ namespace Arithmetic___Adventure.Scenes
                             brickLicznik = 0;
                         }
                     }
-                    
                     else 
                     {
-                        brickRect[i] = new Rectangle(320 + 6 * (i % 6) + ((i % 6) * brick[i].Width * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30, 140, 40);
+                        brickRect[i] = new Rectangle(180 + 6 * (brickLicznik % 6) + ((brickLicznik % 6) * brick[i].Width * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30, 140, 40);
                         brickLicznik += 1;
                     }
-
                 }
-
             }
-
         }
         
         internal override void Update(GameTime gameTime)
@@ -162,13 +162,11 @@ namespace Arithmetic___Adventure.Scenes
             {
                 Data.CurrentState = Data.Scenes.Menu;
             }
-
             //wyjście z gry - przycisk drugi (2)
             else if (mouseState.LeftButton == ButtonState.Pressed && mouseStateRect.Intersects(menuButtonsRect[1]))
             {
                 Data.Exit = true;
             }
-
             //rozpoczęcie od nowa - przycisk trzeci (3)
             else if (mouseState.LeftButton == ButtonState.Pressed && mouseStateRect.Intersects(menuButtonsRect[2]))
             {
@@ -181,6 +179,26 @@ namespace Arithmetic___Adventure.Scenes
             //timer
             timer = timer + gameTime.ElapsedGameTime.TotalSeconds;
 
+            //strzelanie-----------------------------------------------------------------------
+            if(mouseState.LeftButton == ButtonState.Pressed && mousesReleased == true)
+            {
+                for(int i = 0; i < LEVEL; i++)
+                {
+                    if(mouseStateRect.Intersects(brickRect[i]))
+                    {
+                        score++;
+                        //zabezpieczenie przed multiclickiem
+                        mousesReleased = false;
+                    }
+                }
+            }
+
+            //zwolnienie zabezpieczenia multiclick
+            if (mouseState.LeftButton == ButtonState.Released)
+            {
+                mousesReleased = true;
+            }
+            //---------------------------------------------------------------------------------
         }
 
         internal override void Draw(SpriteBatch spriteBatch)
@@ -225,10 +243,11 @@ namespace Arithmetic___Adventure.Scenes
 
             //rysowanie licznika
             spriteBatch.DrawString(gameFont, "Czas gry: ", new Vector2(1115, 35), Color.Black);
-            spriteBatch.DrawString(gameFont, Math.Ceiling(timer).ToString(), new Vector2(1145, 70), Color.Black);
+            spriteBatch.DrawString(gameFont, Math.Ceiling(timer).ToString(), new Vector2(1125, 70), Color.Black);
 
             //rysowanie liczby punktów
             spriteBatch.DrawString(gameFont, "Punkty: ", new Vector2(1115, 110), Color.Black);
+            spriteBatch.DrawString(gameFont, score.ToString(), new Vector2(1125, 145), Color.Black);
 
         }
                 
