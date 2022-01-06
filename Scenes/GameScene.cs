@@ -53,10 +53,11 @@ namespace Arithmetic___Adventure.Scenes
         const int LEVEL_X = 6;
         const int LEVEL_Y = 10;
         //dodanie cegieł---------------------------        
-        private Texture2D[] brick = new Texture2D[LEVEL];
+        //private Texture2D[] brick = new Texture2D[LEVEL];
         //stworzenie prostokąta wspierajacego tę teksturę
-        private Rectangle[] brickRect = new Rectangle[LEVEL];
+        //private Rectangle[] brickRect = new Rectangle[LEVEL];
 
+        //utworzenie tablicy
         private Brick[] brickCastle = new Brick[LEVEL];
 
         //private List<Brick> brickCastle = new List<Brick>();
@@ -65,6 +66,7 @@ namespace Arithmetic___Adventure.Scenes
 
         internal override void LoadContent(ContentManager Content)
         {
+
 
             //brickCastle = new List<Brick>();
 
@@ -110,13 +112,17 @@ namespace Arithmetic___Adventure.Scenes
 
             for (int i = 0; i < LEVEL; i++)
             {
+                brickCastle[i] = new Brick(true, false);
+
                 randBrick = randBrickGen.Next(1, 4);
-                brick[i] = Content.Load<Texture2D>($"Textures/ceg{randBrick}");
+                //brick[i] = Content.Load<Texture2D>($"Textures/ceg{randBrick}");
+                brickCastle[i].brickTexture = Content.Load<Texture2D>($"Textures/ceg{randBrick}");
+                brickCastle[i].brickRect = new Rectangle(250 + 6 * (i % 5) + ((i % 5) * 140 * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30, 140, 40);
 
                 //rysowanie nieparzystych rzędów (liczymy od 0 :p)
                 if (brickLvlUp % 2 == 0)
                 {
-                    brickRect[i] = new Rectangle(250 + 6 * (i % 5) + ((i % 5) * brick[i].Width * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30, 140, 40);
+                    brickCastle[i].brickRect = new Rectangle(250 + 6 * (i % 5) + ((i % 5) * brickCastle[i].brickTexture.Width * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30, 140, 40);
                     brickLicznik += 1;
 
                     if (brickLicznik == 5)
@@ -130,12 +136,12 @@ namespace Arithmetic___Adventure.Scenes
                 {
                     if (brickLicznik == 0)
                     {
-                        brickRect[i] = new Rectangle(250 + 6 * (brickLicznik % 6) + ((brickLicznik % 6) * brick[i].Width * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30, 70, 40);
+                        brickCastle[i].brickRect = new Rectangle(250 + 6 * (brickLicznik % 6) + ((brickLicznik % 6) * brickCastle[i].brickTexture.Width * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30, 70, 40);
                         brickLicznik += 1;
                     }
                     else if (brickLicznik == 5)
                     {
-                        brickRect[i] = new Rectangle(180 + 2 + 6 * (brickLicznik % 6) + ((brickLicznik % 6) * brick[i].Width * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30, 70, 40);
+                        brickCastle[i].brickRect = new Rectangle(180 + 2 + 6 * (brickLicznik % 6) + ((brickLicznik % 6) * brickCastle[i].brickTexture.Width * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30, 70, 40);
                         brickLicznik += 1;
 
                         if (brickLicznik == 6)
@@ -146,10 +152,48 @@ namespace Arithmetic___Adventure.Scenes
                     }
                     else
                     {
-                        brickRect[i] = new Rectangle(180 + 6 * (brickLicznik % 6) + ((brickLicznik % 6) * brick[i].Width * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30, 140, 40);
+                        brickCastle[i].brickRect = new Rectangle(180 + 6 * (brickLicznik % 6) + ((brickLicznik % 6) * brickCastle[i].brickTexture.Width * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30, 140, 40);
                         brickLicznik += 1;
                     }
                 }
+
+                ////rysowanie nieparzystych rzędów (liczymy od 0 :p)
+                //if (brickLvlUp % 2 == 0)
+                //{
+                //    brickRect[i] = new Rectangle(250 + 6 * (i % 5) + ((i % 5) * brick[i].Width * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30, 140, 40);
+                //    brickLicznik += 1;
+
+                //    if (brickLicznik == 5)
+                //    {
+                //        brickLvlUp += 1;
+                //        brickLicznik = 0;
+                //    }
+                //}
+                ////rysowanie parzystych rzędów----------------
+                //else if (brickLvlUp % 2 == 1)
+                //{
+                //    if (brickLicznik == 0)
+                //    {
+                //        brickRect[i] = new Rectangle(250 + 6 * (brickLicznik % 6) + ((brickLicznik % 6) * brick[i].Width * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30, 70, 40);
+                //        brickLicznik += 1;
+                //    }
+                //    else if (brickLicznik == 5)
+                //    {
+                //        brickRect[i] = new Rectangle(180 + 2 + 6 * (brickLicznik % 6) + ((brickLicznik % 6) * brick[i].Width * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30, 70, 40);
+                //        brickLicznik += 1;
+
+                //        if (brickLicznik == 6)
+                //        {
+                //            brickLvlUp += 1;
+                //            brickLicznik = 0;
+                //        }
+                //    }
+                //    else
+                //    {
+                //        brickRect[i] = new Rectangle(180 + 6 * (brickLicznik % 6) + ((brickLicznik % 6) * brick[i].Width * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30, 140, 40);
+                //        brickLicznik += 1;
+                //    }
+                //}
             }
         }
         
@@ -189,7 +233,7 @@ namespace Arithmetic___Adventure.Scenes
             {
                 for(int i = 0; i < LEVEL; i++)
                 {
-                    if(mouseStateRect.Intersects(brickRect[i]))
+                    if(mouseStateRect.Intersects(brickCastle[i].brickRect))
                     {
                         score++;
                         //zabezpieczenie przed multiclickiem
@@ -239,7 +283,7 @@ namespace Arithmetic___Adventure.Scenes
             //rysowanie cegieł
             for(int i = 0; i < LEVEL; i++)
             {
-                spriteBatch.Draw(brick[i], brickRect[i], Color.White);
+                spriteBatch.Draw(brickCastle[i].brickTexture, brickCastle[i].brickRect, Color.White);
             }
             
             
