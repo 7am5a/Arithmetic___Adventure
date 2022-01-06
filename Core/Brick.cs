@@ -7,37 +7,43 @@ using System.Text;
 
 namespace Arithmetic___Adventure.Core
 {
-    class Brick //: Component
+    class Brick : Component
     {
         public Texture2D brickTexture;// { get; set; }
 
         public SpriteFont brickFont;// { get; set; }
 
-        public Vector2 position; //{ get; set; }
-
         public Rectangle brickRect;// { get; set; }
 
-        public string equation; // { get; set; }
+        public string equation = "a"; 
+        public int equationAnswer = 0;
 
-        public bool isClicked = false;
+        public bool _isClicked = false;
+        public bool _exist = true;
 
-      
+        public Brick(bool isClicked, bool exist)
+        {
+            _exist = exist;
+            _isClicked = isClicked;
+        }
 
 
-        //internal override void LoadContent(ContentManager Content)
-        //{
+        internal override void LoadContent(ContentManager Content)
+        {
+            brickTexture = Content.Load<Texture2D>("Textures/ceg1");
+            brickFont = Content.Load<SpriteFont>("Fonts/TextFont");
+            brickRect = new Rectangle(0, 0, 0, 0);
+        }
 
-        //}
+        internal override void Update(GameTime gameTime)
+        {
 
-        //internal override void Update(GameTime gameTime)
-        //{
+        }
 
-        //}
+        internal override void Draw(SpriteBatch spriteBatch)
+        {
 
-        //internal override void Draw(SpriteBatch spriteBatch)
-        //{
-
-        //}
+        }
 
     }
 }
