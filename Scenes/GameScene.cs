@@ -112,10 +112,9 @@ namespace Arithmetic___Adventure.Scenes
 
             for (int i = 0; i < LEVEL; i++)
             {
-                brickCastle[i] = new Brick(true, false);
+                brickCastle[i] = new Brick(false, true);
 
                 randBrick = randBrickGen.Next(1, 4);
-                //brick[i] = Content.Load<Texture2D>($"Textures/ceg{randBrick}");
                 brickCastle[i].brickTexture = Content.Load<Texture2D>($"Textures/ceg{randBrick}");
                 brickCastle[i].brickRect = new Rectangle(250 + 6 * (i % 5) + ((i % 5) * 140 * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30, 140, 40);
 
@@ -157,43 +156,7 @@ namespace Arithmetic___Adventure.Scenes
                     }
                 }
 
-                ////rysowanie nieparzystych rzędów (liczymy od 0 :p)
-                //if (brickLvlUp % 2 == 0)
-                //{
-                //    brickRect[i] = new Rectangle(250 + 6 * (i % 5) + ((i % 5) * brick[i].Width * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30, 140, 40);
-                //    brickLicznik += 1;
-
-                //    if (brickLicznik == 5)
-                //    {
-                //        brickLvlUp += 1;
-                //        brickLicznik = 0;
-                //    }
-                //}
-                ////rysowanie parzystych rzędów----------------
-                //else if (brickLvlUp % 2 == 1)
-                //{
-                //    if (brickLicznik == 0)
-                //    {
-                //        brickRect[i] = new Rectangle(250 + 6 * (brickLicznik % 6) + ((brickLicznik % 6) * brick[i].Width * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30, 70, 40);
-                //        brickLicznik += 1;
-                //    }
-                //    else if (brickLicznik == 5)
-                //    {
-                //        brickRect[i] = new Rectangle(180 + 2 + 6 * (brickLicznik % 6) + ((brickLicznik % 6) * brick[i].Width * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30, 70, 40);
-                //        brickLicznik += 1;
-
-                //        if (brickLicznik == 6)
-                //        {
-                //            brickLvlUp += 1;
-                //            brickLicznik = 0;
-                //        }
-                //    }
-                //    else
-                //    {
-                //        brickRect[i] = new Rectangle(180 + 6 * (brickLicznik % 6) + ((brickLicznik % 6) * brick[i].Width * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30, 140, 40);
-                //        brickLicznik += 1;
-                //    }
-                //}
+                
             }
         }
         
@@ -221,7 +184,11 @@ namespace Arithmetic___Adventure.Scenes
                 //Data.CurrentState = Data.Scenes.Menu;
                 Data.CurrentState = Data.Scenes.Game;
                 timer = 0;
-                score = 0;
+                score = 0; for (int i = 0; i < LEVEL; i++)
+                {                    
+                    brickCastle[i].isClicked = false;
+                    brickCastle[i].exist = true;                    
+                }
             }
             //----------------------------------
 
@@ -238,6 +205,9 @@ namespace Arithmetic___Adventure.Scenes
                         score++;
                         //zabezpieczenie przed multiclickiem
                         mousesReleased = false;
+
+                        brickCastle[i].isClicked = true;
+                        brickCastle[i].exist = false;
                     }
                 }
             }
@@ -283,7 +253,10 @@ namespace Arithmetic___Adventure.Scenes
             //rysowanie cegieł
             for(int i = 0; i < LEVEL; i++)
             {
-                spriteBatch.Draw(brickCastle[i].brickTexture, brickCastle[i].brickRect, Color.White);
+                if(brickCastle[i].exist == true)
+                {
+                    spriteBatch.Draw(brickCastle[i].brickTexture, brickCastle[i].brickRect, Color.White);
+                }
             }
             
             

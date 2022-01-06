@@ -18,13 +18,13 @@ namespace Arithmetic___Adventure.Core
         public string equation = "a"; 
         public int equationAnswer = 0;
 
-        public bool _isClicked = false;
-        public bool _exist = true;
+        public bool isClicked = false;
+        public bool exist = true;
 
-        public Brick(bool isClicked, bool exist)
+        public Brick(bool _isClicked, bool _exist)
         {
-            _exist = exist;
-            _isClicked = isClicked;
+            exist = _exist;
+            isClicked = _isClicked;
         }
 
 
