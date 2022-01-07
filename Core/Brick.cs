@@ -42,7 +42,7 @@ namespace Arithmetic___Adventure.Core
 
         internal override void Draw(SpriteBatch spriteBatch)
         {
-
+            
         }
 
     }

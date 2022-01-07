@@ -10,11 +10,12 @@ namespace Arithmetic___Adventure.Core
     class EquationGenerator : Component
     {
         public int gameLevel = 1;
-        
+        public string UPgeneratedEquation = "a";
 
-        internal override void LoadContent(ContentManager Content)
+        public int GenereEQ()
         {
 
+            //int gameLevel = 1;
             Random randomNumberGenerator = new Random();
             int num1;
             string num1String;
@@ -26,32 +27,32 @@ namespace Arithmetic___Adventure.Core
             string symbolString = "+";
 
             string generatedEquation;
-            int equationAnswer;
+            int equationAnswer = 0;
 
             //generowanie losowych cyfr elementów działania matematycznego
-            num1 = randomNumberGenerator.Next(1, 10);
-            num2 = randomNumberGenerator.Next(0, 10);                       
+            num1 = randomNumberGenerator.Next(1, 20);
+            num2 = randomNumberGenerator.Next(0, 20);
 
             //losowanie znaków +, -, * w zależności od posiomu rozgrywki
             if (gameLevel == 1)
             {
                 symbol = 0;
             }
-            else if(gameLevel == 2)
+            else if (gameLevel == 2)
             {
                 symbol = randomNumberGenerator.Next(0, 1);
             }
-            else if(gameLevel == 3)
+            else if (gameLevel == 3)
             {
                 symbol = randomNumberGenerator.Next(0, 2);
             }
 
             //zabezpieczneie przed wylosowaniem działania (odejmowanie) dającego ujemny wynik
-            for(int i = 1; i > 0; )
+            for (int i = 1; i > 0;)
             {
-                if(symbol == 1 && num1 < num2)
+                if (symbol == 1 && num1 < num2)
                 {
-                    num2 = randomNumberGenerator.Next(0, 10);
+                    num2 = randomNumberGenerator.Next(0, 20);
                 }
                 else
                 {
@@ -91,11 +92,24 @@ namespace Arithmetic___Adventure.Core
             }
 
             generatedEquation = num1String + " " + symbolString + " " + num2String;
+            UPgeneratedEquation = generatedEquation;
             //potrzebne dane to:
             /*
              * equationAnswer do wartości na kuli
              * generatedEquation do wypisania na cegle
              */
+            return equationAnswer;
+        }
+
+        public string StringEQ()
+        {
+            return UPgeneratedEquation;
+        }
+
+        internal override void LoadContent(ContentManager Content)
+        {
+
+            
         }
 
         internal override void Update(GameTime gameTime)

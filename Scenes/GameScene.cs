@@ -11,6 +11,10 @@ namespace Arithmetic___Adventure.Scenes
 {
     internal class GameScene : Component
     {
+        //losowanie pocisku
+        Random randBulletGen = new Random();
+        int randBullet;
+
         //zmienne do punktów
         int score = -1;
         bool mousesReleased = true;
@@ -59,13 +63,16 @@ namespace Arithmetic___Adventure.Scenes
 
         //utworzenie tablicy
         private Brick[] brickCastle = new Brick[LEVEL];
-
+        private EquationGenerator[] eqGen = new EquationGenerator[LEVEL];
+        //private Ammo[] ammo = new Ammo[LEVEL];
         //private List<Brick> brickCastle = new List<Brick>();
-        
+
         //-----------------------------------------
 
         internal override void LoadContent(ContentManager Content)
         {
+            //wygenerowanie pierwszej zmiennej
+            randBullet = randBulletGen.Next(0, LEVEL);
 
 
             //brickCastle = new List<Brick>();
@@ -113,15 +120,17 @@ namespace Arithmetic___Adventure.Scenes
             for (int i = 0; i < LEVEL; i++)
             {
                 brickCastle[i] = new Brick(false, true);
+                eqGen[i] = new EquationGenerator();
+                //ammo[i] = new Ammo();
 
                 randBrick = randBrickGen.Next(1, 4);
                 brickCastle[i].brickTexture = Content.Load<Texture2D>($"Textures/ceg{randBrick}");
-                brickCastle[i].brickRect = new Rectangle(250 + 6 * (i % 5) + ((i % 5) * 140 * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30, 140, 40);
+                brickCastle[i].brickRect = new Rectangle(250 + 7 * (i % 5) + ((i % 5) * brickCastle[i].brickTexture.Width * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30, 140, 40);
 
                 //rysowanie nieparzystych rzędów (liczymy od 0 :p)
                 if (brickLvlUp % 2 == 0)
                 {
-                    brickCastle[i].brickRect = new Rectangle(250 + 6 * (i % 5) + ((i % 5) * brickCastle[i].brickTexture.Width * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30, 140, 40);
+                    brickCastle[i].brickRect = new Rectangle(250 + 7 * (i % 5) + ((i % 5) * brickCastle[i].brickTexture.Width * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30, 140, 40);
                     brickLicznik += 1;
 
                     if (brickLicznik == 5)
@@ -135,12 +144,12 @@ namespace Arithmetic___Adventure.Scenes
                 {
                     if (brickLicznik == 0)
                     {
-                        brickCastle[i].brickRect = new Rectangle(250 + 6 * (brickLicznik % 6) + ((brickLicznik % 6) * brickCastle[i].brickTexture.Width * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30, 70, 40);
+                        brickCastle[i].brickRect = new Rectangle(250 + 7 * (brickLicznik % 6) + ((brickLicznik % 6) * brickCastle[i].brickTexture.Width * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30, 70, 40);
                         brickLicznik += 1;
                     }
                     else if (brickLicznik == 5)
                     {
-                        brickCastle[i].brickRect = new Rectangle(180 + 2 + 6 * (brickLicznik % 6) + ((brickLicznik % 6) * brickCastle[i].brickTexture.Width * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30, 70, 40);
+                        brickCastle[i].brickRect = new Rectangle(180 + 3 + 7 * (brickLicznik % 6) + ((brickLicznik % 6) * brickCastle[i].brickTexture.Width * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30, 70, 40);
                         brickLicznik += 1;
 
                         if (brickLicznik == 6)
@@ -151,12 +160,21 @@ namespace Arithmetic___Adventure.Scenes
                     }
                     else
                     {
-                        brickCastle[i].brickRect = new Rectangle(180 + 6 * (brickLicznik % 6) + ((brickLicznik % 6) * brickCastle[i].brickTexture.Width * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30, 140, 40);
+                        brickCastle[i].brickRect = new Rectangle(180 + 7 * (brickLicznik % 6) + ((brickLicznik % 6) * brickCastle[i].brickTexture.Width * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30, 140, 40);
                         brickLicznik += 1;
                     }
                 }
 
+                //przypisanie równań i rozwiązań odpowiednim cegłom
+                if(brickCastle[i].exist == true)
+                {                    
+                    brickCastle[i].equationAnswer = eqGen[i].GenereEQ();
+                    //ammo[i].equationAnswer = brickCastle[i].equationAnswer;
+                    brickCastle[i].equation = eqGen[i].StringEQ();
+                }
                 
+
+
             }
         }
         
@@ -187,7 +205,9 @@ namespace Arithmetic___Adventure.Scenes
                 score = 0; for (int i = 0; i < LEVEL; i++)
                 {                    
                     brickCastle[i].isClicked = false;
-                    brickCastle[i].exist = true;                    
+                    brickCastle[i].exist = true;
+                    randBullet = randBulletGen.Next(0, LEVEL);
+
                 }
             }
             //----------------------------------
@@ -196,16 +216,32 @@ namespace Arithmetic___Adventure.Scenes
             timer = timer + gameTime.ElapsedGameTime.TotalSeconds;
 
             //strzelanie-----------------------------------------------------------------------
-            if(mouseState.LeftButton == ButtonState.Pressed && mousesReleased == true)
+
+            //generowanie losowego wyniku na pocisku
+
+           
+           
+            //wystrzelenie, jeśli wynik się zgadza to + pkt
+            if (mouseState.LeftButton == ButtonState.Pressed && mousesReleased == true)
             {
                 for(int i = 0; i < LEVEL; i++)
                 {
-                    if(mouseStateRect.Intersects(brickCastle[i].brickRect))
+                    
+                    if (brickCastle[randBullet].exist == false)
                     {
+                        randBullet = randBulletGen.Next(0, LEVEL);
+                    }
+                    //zdobycie punktu, gdy wynik się zgadza
+                    else if (mouseStateRect.Intersects(brickCastle[i].brickRect) && brickCastle[i].isClicked == false && brickCastle[randBullet].equationAnswer == brickCastle[i].equationAnswer)
+                    {
+                        //losowanie następnego wyniku
+                        randBullet = randBulletGen.Next(0, LEVEL);
+
+                        //przyznanie punktu
                         score++;
                         //zabezpieczenie przed multiclickiem
                         mousesReleased = false;
-
+    
                         brickCastle[i].isClicked = true;
                         brickCastle[i].exist = false;
                     }
@@ -217,9 +253,10 @@ namespace Arithmetic___Adventure.Scenes
             {
                 mousesReleased = true;
             }
-            //---------------------------------------------------------------------------------
+            //------------------------------------------------------------------------------------------------------------
         }
 
+        //RYSOWANIE------------------------------------------------------------------------------------------------------------------------------------------
         internal override void Draw(SpriteBatch spriteBatch)
         {
 
@@ -256,10 +293,17 @@ namespace Arithmetic___Adventure.Scenes
                 if(brickCastle[i].exist == true)
                 {
                     spriteBatch.Draw(brickCastle[i].brickTexture, brickCastle[i].brickRect, Color.White);
+                    spriteBatch.DrawString(gameFont, brickCastle[i].equation, new Vector2(brickCastle[i].brickRect.X + brickCastle[i].brickRect.Width /2 - (gameFont.MeasureString(brickCastle[i].equation).X) /2, brickCastle[i].brickRect.Y + (gameFont.MeasureString(brickCastle[i].equation).Y) / 2), Color.White);
                 }
             }
-            
-            
+
+
+
+            //ryswoanie wartości równania na pocisku
+            spriteBatch.DrawString(gameFont, brickCastle[randBullet].equationAnswer.ToString(), new Vector2(10, 10), Color.Black);
+
+
+
             //rysowanie listy
             spriteBatch.Draw(listInfo, listInfoRect, Color.White);
 
