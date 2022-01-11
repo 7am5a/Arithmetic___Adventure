@@ -9,13 +9,29 @@ namespace Arithmetic___Adventure.Core
 {
     class EquationGenerator : Component
     {
-        public int gameLevel = 1;
-        public string UPgeneratedEquation = "a";
+        public int gameLevel;
+        public string UPgeneratedEquation;
 
-        public int GenereEQ()
+        public int GenereEQ(int _gameLevel)
         {
+            //ustalenie zmiennej gameLevel w zależności od obecnego poziomu gry
+            //if (Data.CurrentState == Data.Scenes.Game1)
+            //{
+            //    gameLevel = 1;
+            //}
+            //else if (Data.CurrentState == Data.Scenes.Game2)
+            //{
+            //    gameLevel = 2;
 
-            //int gameLevel = 1;
+            //}
+            //else if (Data.CurrentState == Data.Scenes.Game3)
+            //{
+            //    gameLevel = 3;
+
+            //}
+
+            gameLevel = _gameLevel;
+
             Random randomNumberGenerator = new Random();
             int num1;
             string num1String;
@@ -24,14 +40,14 @@ namespace Arithmetic___Adventure.Core
             string num2String;
 
             int symbol = 0;
-            string symbolString = "+";
+            string symbolString = "&";
 
             string generatedEquation;
             int equationAnswer = 0;
 
             //generowanie losowych cyfr elementów działania matematycznego
-            num1 = randomNumberGenerator.Next(1, 20);
-            num2 = randomNumberGenerator.Next(0, 20);
+            num1 = randomNumberGenerator.Next(1, 11);
+            num2 = randomNumberGenerator.Next(1, 11);
 
             //losowanie znaków +, -, * w zależności od posiomu rozgrywki
             if (gameLevel == 1)
@@ -40,17 +56,50 @@ namespace Arithmetic___Adventure.Core
             }
             else if (gameLevel == 2)
             {
-                symbol = randomNumberGenerator.Next(0, 1);
+                symbol = randomNumberGenerator.Next(0, 2);
             }
             else if (gameLevel == 3)
             {
-                symbol = randomNumberGenerator.Next(0, 2);
+                symbol = randomNumberGenerator.Next(0, 3);
+            }
+
+            //zabezpieczenie przed dodawaniem zbyt dużych liczb
+            for (int i = 1; i > 0;)
+            {
+                if (symbol == 0 && num1 + num2 >= 21)
+                {
+                    num2 = randomNumberGenerator.Next(0, 10);
+                }
+                else
+                {
+                    i = 0;
+                }
             }
 
             //zabezpieczneie przed wylosowaniem działania (odejmowanie) dającego ujemny wynik
             for (int i = 1; i > 0;)
             {
                 if (symbol == 1 && num1 < num2)
+                {
+                    num2 = randomNumberGenerator.Next(0, 10);
+                }
+                else
+                {
+                    i = 0;
+                }
+            }
+
+            //zmniejszenie zakresu czynników mnożenia
+            if(symbol == 2)
+            {
+                num1 = randomNumberGenerator.Next(1, 11);
+                num2 = randomNumberGenerator.Next(1, 11);
+            }
+
+            //zmniejszenie losowanych wartości do działań z mnożeniem
+            for (int i = 1; i > 0;)
+            {
+                if (symbol == 2 && num1 + num2 > 11)
                 {
                     num2 = randomNumberGenerator.Next(0, 20);
                 }
