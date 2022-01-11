@@ -14,22 +14,7 @@ namespace Arithmetic___Adventure.Core
 
         public int GenereEQ(int _gameLevel)
         {
-            //ustalenie zmiennej gameLevel w zależności od obecnego poziomu gry
-            //if (Data.CurrentState == Data.Scenes.Game1)
-            //{
-            //    gameLevel = 1;
-            //}
-            //else if (Data.CurrentState == Data.Scenes.Game2)
-            //{
-            //    gameLevel = 2;
-
-            //}
-            //else if (Data.CurrentState == Data.Scenes.Game3)
-            //{
-            //    gameLevel = 3;
-
-            //}
-
+            
             gameLevel = _gameLevel;
 
             Random randomNumberGenerator = new Random();

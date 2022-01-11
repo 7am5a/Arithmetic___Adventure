@@ -11,6 +11,10 @@ namespace Arithmetic___Adventure.Scenes
 {
     class GameScene3 : Component
     {
+        
+        //zmienna do wyświetlania wyniku
+        public int level = 3;
+
         //zmienna do zmiany sceny
         int sceneChange = 0;
 
@@ -251,7 +255,7 @@ namespace Arithmetic___Adventure.Scenes
                         }
                         else
                         {
-                            score = score + BASIC_SCORE_VALUE / 2;
+                            score = score + BASIC_SCORE_VALUE / 4;
                             preTimer = (int)Math.Ceiling(timer);
                         }
 
@@ -283,13 +287,30 @@ namespace Arithmetic___Adventure.Scenes
             }
             //------------------------------------------------------------------------------------------------------------
 
-            ////zmiana sceny po zniknięciu wszystkich cegiełek
-            //if (sceneChange == LEVEL)
-            //{
-            //    Data.CurrentState = Data.Scenes.Game3;
-            //}
+            //zmiana sceny po zniknięciu wszystkich cegiełek
+            if (sceneChange == LEVEL)
+            {
+                SummaryScene.scoreSum3 = score;
+                SummaryScene.level = level;
+                //wyczyszczenie poziomu
+                timer = 0;
+                score = 0;
+                for (int i = 0; i < LEVEL; i++)
+                {
+                    brickCastle[i].isClicked = false;
+                    brickCastle[i].exist = true;
+                    randBullet = randBulletGen.Next(0, LEVEL);
 
-        }
+                    brickCastle[i].equationAnswer = eqGen[i].GenereEQ(1);
+                    brickCastle[i].equation = eqGen[i].StringEQ();
+                    mousesReleased = false;
+                }
+                sceneChange = 0;
+
+                Data.CurrentState = Data.Scenes.Summary;
+            }
+
+    }
 
         //RYSOWANIE------------------------------------------------------------------------------------------------------------------------------------------
         internal override void Draw(SpriteBatch spriteBatch)

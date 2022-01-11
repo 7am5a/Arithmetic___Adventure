@@ -13,18 +13,24 @@ namespace Arithmetic___Adventure.Managers
     {
 
         private MenuScene ms = new MenuScene();
+        private InfoScene ins = new InfoScene();
         private GameScene1 gs1 = new GameScene1();
         private GameScene2 gs2 = new GameScene2();
         private GameScene3 gs3 = new GameScene3();
+        private SummaryScene ss = new SummaryScene();
+        
 
 
 
         internal override void LoadContent(ContentManager Content)
         {
             ms.LoadContent(Content);
+            ins.LoadContent(Content);
             gs1.LoadContent(Content);
             gs2.LoadContent(Content);
             gs3.LoadContent(Content);
+            ss.LoadContent(Content);
+            
 
         }
 
@@ -44,8 +50,13 @@ namespace Arithmetic___Adventure.Managers
                 case Data.Scenes.Game3:
                     gs3.Update(gameTime);
                     break;
-                case Data.Scenes.Score:
+                case Data.Scenes.HowToPlay:
+                    ins.Update(gameTime);
                     break;
+                case Data.Scenes.Summary:
+                    ss.Update(gameTime);
+                    break;              
+                    
             }
         }
 
@@ -65,8 +76,12 @@ namespace Arithmetic___Adventure.Managers
                 case Data.Scenes.Game3:
                     gs3.Draw(spriteBatch);
                     break;
-                case Data.Scenes.Score:
+                case Data.Scenes.HowToPlay:
+                    ins.Draw(spriteBatch);
                     break;
+                case Data.Scenes.Summary:
+                    ss.Draw(spriteBatch);
+                    break;                
             }
 
         }

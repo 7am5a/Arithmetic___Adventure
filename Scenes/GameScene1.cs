@@ -11,6 +11,9 @@ namespace Arithmetic___Adventure.Scenes
 {
     internal class GameScene1 : Component
     {
+        //zmienna do wyświetlania wyniku
+        public int level = 1;
+
         //zmienna do zmiany sceny
         int sceneChange = 0;
 
@@ -71,11 +74,18 @@ namespace Arithmetic___Adventure.Scenes
         private EquationGenerator[] eqGen = new EquationGenerator[LEVEL];
         //private Ammo[] ammo = new Ammo[LEVEL];
         //private List<Brick> brickCastle = new List<Brick>();
+                
 
         //-----------------------------------------
 
         internal override void LoadContent(ContentManager Content)
         {
+            //zerowanie
+            SummaryScene.scoreSum1 = 0;
+            SummaryScene.scoreSum2 = 0;
+            SummaryScene.scoreSum3 = 0;
+            SummaryScene.level = 0;
+
             timer = 0;
 
             // załadowanie tła
@@ -193,7 +203,8 @@ namespace Arithmetic___Adventure.Scenes
             {
                 Data.CurrentState = Data.Scenes.Game1;
                 timer = 0;
-                score = 0; for (int i = 0; i < LEVEL; i++)
+                score = 0; 
+                for (int i = 0; i < LEVEL; i++)
                 {                    
                     brickCastle[i].isClicked = false;
                     brickCastle[i].exist = true;
@@ -246,7 +257,7 @@ namespace Arithmetic___Adventure.Scenes
                         }
                         else
                         {
-                            score = score + BASIC_SCORE_VALUE / 2;
+                            score = score + BASIC_SCORE_VALUE / 4;
                             preTimer = (int)Math.Ceiling(timer);
                         }
 
@@ -281,8 +292,26 @@ namespace Arithmetic___Adventure.Scenes
 
             //zmiana sceny po zniknięciu wszystkich cegiełek
             if (sceneChange == LEVEL)
-            {
-                Data.CurrentState = Data.Scenes.Game2;
+            {                
+                SummaryScene.scoreSum1 = score;
+                SummaryScene.level = level;
+                //wyczyszczenie poziomu
+                timer = 0;
+                score = 0; 
+                for (int i = 0; i < LEVEL; i++)
+                {
+                    brickCastle[i].isClicked = false;
+                    brickCastle[i].exist = true;
+                    randBullet = randBulletGen.Next(0, LEVEL);
+
+                    brickCastle[i].equationAnswer = eqGen[i].GenereEQ(1);
+                    brickCastle[i].equation = eqGen[i].StringEQ();
+                    mousesReleased = false;
+                }
+                sceneChange = 0;
+                
+                //zmiana sceny
+                Data.CurrentState = Data.Scenes.Summary;
             }
 
         }

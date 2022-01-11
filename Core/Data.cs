@@ -12,7 +12,7 @@ namespace Arithmetic___Adventure.Core
         //
         public static bool Exit { get; set; } = false;
 
-        public enum Scenes { Menu, Game1, Game2, Game3, Score}
+        public enum Scenes { Menu, Game1, Summary, Game2, Game3, HowToPlay }
         public static Scenes CurrentState { get; set; } = Scenes.Menu;
     }
 }

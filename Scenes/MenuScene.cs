@@ -55,8 +55,15 @@ namespace Arithmetic___Adventure.Scenes
                 Data.CurrentState = Data.Scenes.Game1;
                 
             }
-            //wyjście z gry - przycisk ostatni (3)
 
+            //wejście do informacji o sterowaniu - przycisk drugi (2)
+            else if (mouseState.LeftButton == ButtonState.Pressed && mouseStateRect.Intersects(menuButtonsRect[1]))
+            {
+                Data.CurrentState = Data.Scenes.HowToPlay;
+
+            }
+
+            //wyjście z gry - przycisk ostatni (3)
             else if(mouseState.LeftButton == ButtonState.Pressed && mouseStateRect.Intersects(menuButtonsRect[2]))
             {
                 Data.Exit = true;
