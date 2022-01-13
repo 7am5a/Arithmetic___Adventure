@@ -239,18 +239,18 @@ namespace Arithmetic___Adventure.Scenes
                         randBullet = randBulletGen.Next(0, LEVEL);
 
                         //przyznanie punktów w zależności od czasu
-                        if ((int)Math.Ceiling(timer) - preTimer <= 7)
+                        if ((int)Math.Ceiling(timer) - preTimer <= 4)
                         {
                             score = score + BASIC_SCORE_VALUE;
                             //przypisanie do zmiennej pomocniczej obecnego stanu timera
                             preTimer = (int)Math.Ceiling(timer);
                         }
-                        else if((int)Math.Ceiling(timer) - preTimer <= 12)
+                        else if((int)Math.Ceiling(timer) - preTimer <= 7)
                         {
                             score = score + BASIC_SCORE_VALUE * 3 / 4;
                             preTimer = (int)Math.Ceiling(timer);
                         }
-                        else if ((int)Math.Ceiling(timer) - preTimer <= 16)
+                        else if ((int)Math.Ceiling(timer) - preTimer <= 9)
                         {
                             score = score + BASIC_SCORE_VALUE / 2;
                             preTimer = (int)Math.Ceiling(timer);
@@ -294,7 +294,10 @@ namespace Arithmetic___Adventure.Scenes
             if (sceneChange == LEVEL)
             {                
                 SummaryScene.scoreSum1 = score;
+                SummaryScene.timeSum1 = (int)timer;
                 SummaryScene.level = level;
+                StoryScene.level = level;
+
                 //wyczyszczenie poziomu
                 timer = 0;
                 score = 0; 

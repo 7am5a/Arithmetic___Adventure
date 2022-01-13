@@ -9,16 +9,16 @@ using System.Text;
 
 namespace Arithmetic___Adventure.Scenes
 {
-    class InfoScene : Component
+    class StoryScene : Component
     {
+        //zmienna do zabezpieczenia przed zbyt szybkim przyspieszeniem scenki fabularnej
+        public static double timerSecurity = 0;
+
+        //zmienna do sterowania wyświetlaniem kontentu
+        public static int level = 0;
         //tło
         private Texture2D backgroundMenu;
         private Rectangle backgroundMenuRect;
-               
-        //dodanie przycisków
-        private Texture2D menuButtons;
-        //stworzenie prostokąta wspierajacego tę teksturę
-        private Rectangle menuButtonsRect;
 
         //dodanie myszki
         private MouseState mouseState, oldMouseState;
@@ -29,24 +29,41 @@ namespace Arithmetic___Adventure.Scenes
             // załadowanie tego powyzej do gierki
             backgroundMenu = Content.Load<Texture2D>("Textures/MenuBackground1");
             backgroundMenuRect = new Rectangle(0, 0, Data.ScreenWid, Data.ScreenHei);
-
-            menuButtons = Content.Load<Texture2D>($"Textures/bttn1"); //"$nazwa_pliku{i}" //"Textures/$bttn{i}"
-            menuButtonsRect = new Rectangle(Data.ScreenWid / 2 - menuButtons.Height / 2, 600, menuButtons.Width / 2, menuButtons.Height / 2);
-            
         }
 
         internal override void Update(GameTime gameTime)
         {
+            timerSecurity = timerSecurity + gameTime.ElapsedGameTime.TotalSeconds;
+
+
             //klikanie
             oldMouseState = mouseState;
             mouseState = Mouse.GetState();
             mouseStateRect = new Rectangle(mouseState.X, mouseState.Y, 1, 1);
 
-            //wyjście do menu
+            //przyspieszenie przejścia sceny
 
-            if (mouseState.LeftButton == ButtonState.Pressed && mouseStateRect.Intersects(menuButtonsRect))
+            if (mouseState.LeftButton == ButtonState.Pressed && mouseStateRect.Intersects(backgroundMenuRect) && timerSecurity > 1)
             {
-                Data.CurrentState = Data.Scenes.Menu;
+                if (level == 0)
+                {
+                    Data.CurrentState = Data.Scenes.Game1;
+                    timerSecurity = 0;
+                }
+                else if (level == 1)
+                {
+                    Data.CurrentState = Data.Scenes.Game2;
+                    timerSecurity = 0;
+                }
+                else if (level == 2)
+                {
+                    Data.CurrentState = Data.Scenes.Game3;
+                    timerSecurity = 0;
+                }
+                else if (level == 3)
+                {
+                    Data.CurrentState = Data.Scenes.Summary;
+                }
             }
 
         }
@@ -57,14 +74,6 @@ namespace Arithmetic___Adventure.Scenes
             //rysowanie tła
             spriteBatch.Draw(backgroundMenu, backgroundMenuRect, Color.White);
 
-            //rysowanie przycisku
-            
-                spriteBatch.Draw(menuButtons, menuButtonsRect, Color.White);
-                if (mouseStateRect.Intersects(menuButtonsRect))
-                {
-                    spriteBatch.Draw(menuButtons, menuButtonsRect, Color.Gray);
-                }
         }
-
     }
 }

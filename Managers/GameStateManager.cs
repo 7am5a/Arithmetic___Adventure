@@ -18,7 +18,9 @@ namespace Arithmetic___Adventure.Managers
         private GameScene2 gs2 = new GameScene2();
         private GameScene3 gs3 = new GameScene3();
         private SummaryScene ss = new SummaryScene();
-        
+        private StoryScene st = new StoryScene();
+
+
 
 
 
@@ -30,7 +32,9 @@ namespace Arithmetic___Adventure.Managers
             gs2.LoadContent(Content);
             gs3.LoadContent(Content);
             ss.LoadContent(Content);
-            
+            st.LoadContent(Content);
+
+
 
         }
 
@@ -55,8 +59,11 @@ namespace Arithmetic___Adventure.Managers
                     break;
                 case Data.Scenes.Summary:
                     ss.Update(gameTime);
-                    break;              
-                    
+                    break;
+                case Data.Scenes.Story:
+                    st.Update(gameTime);
+                    break;
+
             }
         }
 
@@ -81,7 +88,10 @@ namespace Arithmetic___Adventure.Managers
                     break;
                 case Data.Scenes.Summary:
                     ss.Draw(spriteBatch);
-                    break;                
+                    break;
+                case Data.Scenes.Story:
+                    st.Draw(spriteBatch);
+                    break;
             }
 
         }

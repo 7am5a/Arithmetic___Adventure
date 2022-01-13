@@ -52,7 +52,7 @@ namespace Arithmetic___Adventure.Scenes
             //wejście do gry - przycisk pierwszy (1)
             if(mouseState.LeftButton == ButtonState.Pressed && mouseStateRect.Intersects(menuButtonsRect[0]))
             {
-                Data.CurrentState = Data.Scenes.Game1;
+                Data.CurrentState = Data.Scenes.Story;
                 
             }
 

@@ -13,9 +13,13 @@ namespace Arithmetic___Adventure.Scenes
     {
         public static int level = 0;
 
-        public static int scoreSum1 = 1;
-        public static int scoreSum2 = 2;
-        public static int scoreSum3 = 3;
+        public static int scoreSum1 = 0;
+        public static int scoreSum2 = 0;
+        public static int scoreSum3 = 0;
+
+        public static int timeSum1 = 0;
+        public static int timeSum2 = 0;
+        public static int timeSum3 = 0;
 
         //napisy na pasku
         private SpriteFont gameFont;
@@ -50,7 +54,7 @@ namespace Arithmetic___Adventure.Scenes
             for (int i = 0; i < menuButtons.Length; i++)
             {
                 menuButtons[i] = Content.Load<Texture2D>($"Textures/bttn{i}"); //"$nazwa_pliku{i}" //"Textures/$bttn{i}"
-                menuButtonsRect[i] = new Rectangle((Data.ScreenWid / 4 - menuButtons[i].Height / 2) * i, 400, menuButtons[i].Width / 2, menuButtons[i].Height / 2);
+                menuButtonsRect[i] = new Rectangle((Data.ScreenWid / 2 - menuButtons[i].Width /2 - 30) + 60 * i + menuButtons[i].Width /2 * i, 570, menuButtons[i].Width / 2, menuButtons[i].Height / 2);
             }
         }
 
@@ -68,11 +72,15 @@ namespace Arithmetic___Adventure.Scenes
             {
                 if(level == 1)
                 {
-                    Data.CurrentState = Data.Scenes.Game2;
+                    Data.CurrentState = Data.Scenes.Story;
                 }
                 else if(level == 2)
                 {
-                    Data.CurrentState = Data.Scenes.Game3;
+                    Data.CurrentState = Data.Scenes.Story;
+                }
+                else if (level == 3)
+                {
+                    Data.CurrentState = Data.Scenes.Menu;
                 }
 
             }
@@ -114,20 +122,25 @@ namespace Arithmetic___Adventure.Scenes
             
 
             //rysowanie liczby punktów w zależności od ukończonego poziomu
-            spriteBatch.DrawString(gameFont, "Twój wynik: ", new Vector2(1115, 110), Color.Black);
+            spriteBatch.DrawString(gameFont, "Wynik: ", new Vector2(Data.ScreenWid / 2, 310), Color.Black);
+            spriteBatch.DrawString(gameFont, "Czas: ", new Vector2(Data.ScreenWid / 2, 380), Color.Black);
+
             if (level == 1)
             {
-                spriteBatch.DrawString(gameFont, scoreSum1.ToString(), new Vector2(1125, 145), Color.Black);
+                spriteBatch.DrawString(gameFont, scoreSum1.ToString(), new Vector2(Data.ScreenWid / 2, 345), Color.Black);
+                spriteBatch.DrawString(gameFont, timeSum1.ToString(), new Vector2(Data.ScreenWid / 2, 415), Color.Black);
             }
             else if (level == 2)
             {
-                spriteBatch.DrawString(gameFont, scoreSum2.ToString(), new Vector2(1125, 145), Color.Black);
+                spriteBatch.DrawString(gameFont, scoreSum2.ToString(), new Vector2(Data.ScreenWid / 2, 345), Color.Black);
+                spriteBatch.DrawString(gameFont, timeSum2.ToString(), new Vector2(Data.ScreenWid / 2, 415), Color.Black);
             }
             else if (level == 3)
             {
-                spriteBatch.DrawString(gameFont, (scoreSum1 + scoreSum2 + scoreSum3).ToString(), new Vector2(1125, 145), Color.Black);
+                spriteBatch.DrawString(gameFont, (scoreSum1 + scoreSum2 + scoreSum3).ToString(), new Vector2(Data.ScreenWid / 2, 345), Color.Black);
+                spriteBatch.DrawString(gameFont, (timeSum1 + timeSum2 + timeSum3).ToString(), new Vector2(Data.ScreenWid / 2, 415), Color.Black);
             }
-            
+
 
         }
 
