@@ -11,6 +11,13 @@ namespace Arithmetic___Adventure.Scenes
 {
     class InfoScene : Component
     {
+        //kursor myszy
+        private Texture2D mouseCursor;
+
+        //ekran informacyjny
+        private Texture2D infoSample;
+        private Rectangle infoSampleRect;
+
         //tło
         private Texture2D backgroundMenu;
         private Rectangle backgroundMenuRect;
@@ -27,10 +34,15 @@ namespace Arithmetic___Adventure.Scenes
         internal override void LoadContent(ContentManager Content)
         {
             // załadowanie tego powyzej do gierki
+            mouseCursor = Content.Load<Texture2D>("Textures/cursor1");
+
+            infoSample = Content.Load<Texture2D>("Textures/zasady");
+            infoSampleRect = new Rectangle(100,50, Data.ScreenWid - 200, Data.ScreenHei - 180);
+
             backgroundMenu = Content.Load<Texture2D>("Textures/MenuBackground1");
             backgroundMenuRect = new Rectangle(0, 0, Data.ScreenWid, Data.ScreenHei);
 
-            menuButtons = Content.Load<Texture2D>($"Textures/bttn1"); //"$nazwa_pliku{i}" //"Textures/$bttn{i}"
+            menuButtons = Content.Load<Texture2D>($"Textures/bttnSum0"); //"$nazwa_pliku{i}" //"Textures/$bttn{i}"
             menuButtonsRect = new Rectangle(Data.ScreenWid / 2 - menuButtons.Height / 2, 600, menuButtons.Width / 2, menuButtons.Height / 2);
             
         }
@@ -64,6 +76,12 @@ namespace Arithmetic___Adventure.Scenes
                 {
                     spriteBatch.Draw(menuButtons, menuButtonsRect, Color.Gray);
                 }
+
+            //rysowanie pola z informacjami
+            spriteBatch.Draw(infoSample, infoSampleRect, Color.White);
+
+            //rysowanie kursora myszy
+            spriteBatch.Draw(mouseCursor, new Vector2(mouseState.X, mouseState.Y), Color.White);
         }
 
     }

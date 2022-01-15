@@ -11,6 +11,7 @@ namespace Arithmetic___Adventure.Scenes
 {
     internal class MenuScene : Component
     {
+        Texture2D mouseCursor;
         //tło
         private Texture2D backgroundMenu;
         private Rectangle backgroundMenuRect;
@@ -30,6 +31,8 @@ namespace Arithmetic___Adventure.Scenes
         internal override void LoadContent(ContentManager Content)
         {
             // załadowanie tego powyzej do gierki
+            mouseCursor = Content.Load<Texture2D>("Textures/cursor1");
+
             backgroundMenu = Content.Load<Texture2D>("Textures/MenuBackground1");
             backgroundMenuRect = new Rectangle(0, 0, Data.ScreenWid, Data.ScreenHei);
 
@@ -87,7 +90,8 @@ namespace Arithmetic___Adventure.Scenes
                 }
             }
 
-
+            //rysowanie kursora myszy
+            spriteBatch.Draw(mouseCursor, new Vector2(mouseState.X, mouseState.Y), Color.White);
         }
 
     }

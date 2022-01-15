@@ -26,7 +26,7 @@ namespace Arithmetic___Adventure.Core
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             //widoczny zwykły kursor myszy
-            IsMouseVisible = true;
+            IsMouseVisible = false;
         }
 
         protected override void Initialize()

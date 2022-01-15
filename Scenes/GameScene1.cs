@@ -11,6 +11,10 @@ namespace Arithmetic___Adventure.Scenes
 {
     internal class GameScene1 : Component
     {
+        Texture2D mouseCursor;
+        Texture2D ammoSprite;
+        Texture2D trebuchetSprite;
+
         //zmienna do wyświetlania wyniku
         public int level = 1;
 
@@ -41,6 +45,7 @@ namespace Arithmetic___Adventure.Scenes
 
         //napisy na pasku
         private SpriteFont gameFont;
+        private SpriteFont ammoFont;
         //private Rectangle gameNameRect;
 
         //menu na dole--------------------------------
@@ -61,25 +66,25 @@ namespace Arithmetic___Adventure.Scenes
         double timer = 0;
 
         //było 49 jbc
-        const int LEVEL = 11;
+        const int LEVEL = 38;
         const int LEVEL_X = 6;
         const int LEVEL_Y = 10;
-        //dodanie cegieł---------------------------        
-        //private Texture2D[] brick = new Texture2D[LEVEL];
-        //stworzenie prostokąta wspierajacego tę teksturę
-        //private Rectangle[] brickRect = new Rectangle[LEVEL];
-
+        
+        //dodanie cegieł---------------------------                
         //utworzenie tablicy
         private Brick[] brickCastle = new Brick[LEVEL];
         private EquationGenerator[] eqGen = new EquationGenerator[LEVEL];
         //private Ammo[] ammo = new Ammo[LEVEL];
-        //private List<Brick> brickCastle = new List<Brick>();
-                
-
         //-----------------------------------------
 
         internal override void LoadContent(ContentManager Content)
         {
+            //załądowanie grafik myszy i pocisku
+            mouseCursor = Content.Load<Texture2D>("Textures/target");
+            ammoSprite = Content.Load<Texture2D>("Textures/kula");
+            trebuchetSprite = Content.Load<Texture2D>("Textures/trebusz");
+
+
             //zerowanie
             SummaryScene.scoreSum1 = 0;
             SummaryScene.scoreSum2 = 0;
@@ -102,6 +107,7 @@ namespace Arithmetic___Adventure.Scenes
 
             //załadowanie czcionki
             gameFont = Content.Load<SpriteFont>("Fonts/TextFont");
+            ammoFont = Content.Load<SpriteFont>("Fonts/AmmoFont");
 
             //przyciski na dole-----------------------
             
@@ -130,7 +136,7 @@ namespace Arithmetic___Adventure.Scenes
                 brickCastle[i] = new Brick(false, true);
                 eqGen[i] = new EquationGenerator();
 
-                randBrick = randBrickGen.Next(1, 4);
+                randBrick = randBrickGen.Next(1, 5);
                 brickCastle[i].brickTexture = Content.Load<Texture2D>($"Textures/ceg{randBrick}");
 
                 //rysowanie nieparzystych rzędów (liczymy od 0 :p)
@@ -363,7 +369,9 @@ namespace Arithmetic___Adventure.Scenes
 
 
             //ryswoanie wartości równania na pocisku
-            spriteBatch.DrawString(gameFont, brickCastle[randBullet].equationAnswer.ToString(), new Vector2(10, 10), Color.Black);
+            spriteBatch.Draw(trebuchetSprite, new Vector2(Data.ScreenWid-160 -350/2, Data.ScreenHei-210   -257/2 ), Color.White);
+            spriteBatch.Draw(ammoSprite, new Vector2(-25 + Data.ScreenWid - 55 -30, -25 + Data.ScreenHei - 110 -25), Color.White);
+            spriteBatch.DrawString(ammoFont, brickCastle[randBullet].equationAnswer.ToString(), new Vector2( Data.ScreenWid - 59 - gameFont.MeasureString(brickCastle[randBullet].equationAnswer.ToString()).X / 2 -30, -13 + Data.ScreenHei - 100 - gameFont.MeasureString(brickCastle[randBullet].equationAnswer.ToString()).Y / 2 -25), Color.White);
 
 
 
@@ -377,6 +385,9 @@ namespace Arithmetic___Adventure.Scenes
             //rysowanie liczby punktów
             spriteBatch.DrawString(gameFont, "Punkty: ", new Vector2(1115, 110), Color.Black);
             spriteBatch.DrawString(gameFont, score.ToString(), new Vector2(1125, 145), Color.Black);
+
+            //rysowanie kursora myszy
+            spriteBatch.Draw(mouseCursor, new Vector2(mouseState.X-20, mouseState.Y-20), Color.White);
 
         }
                 

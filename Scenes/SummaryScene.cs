@@ -11,6 +11,9 @@ namespace Arithmetic___Adventure.Scenes
 {
     class SummaryScene : Component
     {
+
+        Texture2D mouseCursor;
+
         public static int level = 0;
 
         public static int scoreSum1 = 0;
@@ -42,6 +45,7 @@ namespace Arithmetic___Adventure.Scenes
 
         internal override void LoadContent(ContentManager Content)
         {
+            mouseCursor = Content.Load<Texture2D>("Textures/cursor1");
 
             //załadowanie czcionki
             gameFont = Content.Load<SpriteFont>("Fonts/TextFont");
@@ -53,7 +57,7 @@ namespace Arithmetic___Adventure.Scenes
             //tworzenie przycisków ale z gotowych bloczklów bez wpisywania napisów do środka
             for (int i = 0; i < menuButtons.Length; i++)
             {
-                menuButtons[i] = Content.Load<Texture2D>($"Textures/bttn{i}"); //"$nazwa_pliku{i}" //"Textures/$bttn{i}"
+                menuButtons[i] = Content.Load<Texture2D>($"Textures/bttnSum{i}"); //"$nazwa_pliku{i}" //"Textures/$bttn{i}"
                 menuButtonsRect[i] = new Rectangle((Data.ScreenWid / 2 - menuButtons[i].Width /2 - 30) + 60 * i + menuButtons[i].Width /2 * i, 570, menuButtons[i].Width / 2, menuButtons[i].Height / 2);
             }
         }
@@ -66,9 +70,13 @@ namespace Arithmetic___Adventure.Scenes
             mouseStateRect = new Rectangle(mouseState.X, mouseState.Y, 1, 1);
 
 
-
-            //wejście do gry - przycisk pierwszy (1)
+            //wyjście z gry - przycisk pierwszy (1)
             if (mouseState.LeftButton == ButtonState.Pressed && mouseStateRect.Intersects(menuButtonsRect[0]))
+            {
+                Data.CurrentState = Data.Scenes.Menu;
+            }
+            //wejście do gry - przycisk ostatni (2)
+            else if (mouseState.LeftButton == ButtonState.Pressed && mouseStateRect.Intersects(menuButtonsRect[1]))
             {
                 if(level == 1)
                 {
@@ -85,11 +93,7 @@ namespace Arithmetic___Adventure.Scenes
 
             }
                         
-            //wyjście z gry - przycisk ostatni (2)
-            else if (mouseState.LeftButton == ButtonState.Pressed && mouseStateRect.Intersects(menuButtonsRect[1]))
-            {
-                Data.CurrentState = Data.Scenes.Menu;
-            }
+            
                         
 
         }
@@ -141,7 +145,8 @@ namespace Arithmetic___Adventure.Scenes
                 spriteBatch.DrawString(gameFont, (timeSum1 + timeSum2 + timeSum3).ToString(), new Vector2(Data.ScreenWid / 2, 415), Color.Black);
             }
 
-
+            //rysowanie kursora myszy
+            spriteBatch.Draw(mouseCursor, new Vector2(mouseState.X, mouseState.Y), Color.White);
         }
 
     }

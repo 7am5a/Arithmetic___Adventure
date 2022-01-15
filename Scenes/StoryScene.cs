@@ -11,6 +11,7 @@ namespace Arithmetic___Adventure.Scenes
 {
     class StoryScene : Component
     {
+
         //zmienna do zabezpieczenia przed zbyt szybkim przyspieszeniem scenki fabularnej
         public static double timerSecurity = 0;
 
@@ -27,6 +28,7 @@ namespace Arithmetic___Adventure.Scenes
         internal override void LoadContent(ContentManager Content)
         {
             // załadowanie tego powyzej do gierki
+            
             backgroundMenu = Content.Load<Texture2D>("Textures/MenuBackground1");
             backgroundMenuRect = new Rectangle(0, 0, Data.ScreenWid, Data.ScreenHei);
         }
@@ -43,7 +45,7 @@ namespace Arithmetic___Adventure.Scenes
 
             //przyspieszenie przejścia sceny
 
-            if (mouseState.LeftButton == ButtonState.Pressed && mouseStateRect.Intersects(backgroundMenuRect) && timerSecurity > 1)
+            if (mouseState.LeftButton == ButtonState.Pressed && mouseStateRect.Intersects(backgroundMenuRect) && timerSecurity > 0.2)
             {
                 if (level == 0)
                 {
@@ -62,6 +64,7 @@ namespace Arithmetic___Adventure.Scenes
                 }
                 else if (level == 3)
                 {
+                    level = 0;
                     Data.CurrentState = Data.Scenes.Summary;
                 }
             }

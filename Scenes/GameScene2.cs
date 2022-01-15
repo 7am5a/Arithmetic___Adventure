@@ -11,6 +11,10 @@ namespace Arithmetic___Adventure.Scenes
 {
     class GameScene2 : Component
     {
+        Texture2D mouseCursor;
+        Texture2D ammoSprite;
+        Texture2D trebuchetSprite;
+
         //zmienna do wyświetlania wyniku
         public int level = 2;
 
@@ -41,6 +45,8 @@ namespace Arithmetic___Adventure.Scenes
 
         //napisy na pasku
         private SpriteFont gameFont;
+        private SpriteFont ammoFont;
+
         //private Rectangle gameNameRect;
 
         //menu na dole--------------------------------
@@ -74,6 +80,12 @@ namespace Arithmetic___Adventure.Scenes
 
         internal override void LoadContent(ContentManager Content)
         {
+            mouseCursor = Content.Load<Texture2D>("Textures/target");
+            ammoSprite = Content.Load<Texture2D>("Textures/kula");
+            trebuchetSprite = Content.Load<Texture2D>("Textures/trebusz");
+
+
+
             //wygenerowanie pierwszej zmiennej
             randBullet = randBulletGen.Next(0, LEVEL);
 
@@ -97,6 +109,8 @@ namespace Arithmetic___Adventure.Scenes
 
             //załadowanie czcionki
             gameFont = Content.Load<SpriteFont>("Fonts/TextFont");
+            ammoFont = Content.Load<SpriteFont>("Fonts/AmmoFont");
+
 
             //przyciski na dole-----------------------
 
@@ -362,7 +376,9 @@ namespace Arithmetic___Adventure.Scenes
 
 
             //ryswoanie wartości równania na pocisku
-            spriteBatch.DrawString(gameFont, brickCastle[randBullet].equationAnswer.ToString(), new Vector2(10, 10), Color.Black);
+            spriteBatch.Draw(trebuchetSprite, new Vector2(Data.ScreenWid - 160 - 350 / 2, Data.ScreenHei - 210 - 257 / 2), Color.White);
+            spriteBatch.Draw(ammoSprite, new Vector2(-25 + Data.ScreenWid - 55, -25 + Data.ScreenHei - 110), Color.White);
+            spriteBatch.DrawString(ammoFont, brickCastle[randBullet].equationAnswer.ToString(), new Vector2(Data.ScreenWid - 55 - gameFont.MeasureString(brickCastle[randBullet].equationAnswer.ToString()).X / 2, -12 + Data.ScreenHei - 100 - gameFont.MeasureString(brickCastle[randBullet].equationAnswer.ToString()).Y / 2), Color.Yellow);
 
 
 
@@ -374,9 +390,11 @@ namespace Arithmetic___Adventure.Scenes
             spriteBatch.DrawString(gameFont, Math.Ceiling(timer).ToString(), new Vector2(1125, 70), Color.Black);
 
             //rysowanie liczby punktów
-            spriteBatch.DrawString(gameFont, "Punkty: Ale 2 poziom ", new Vector2(1115, 110), Color.Black);
+            spriteBatch.DrawString(gameFont, "Punkty: ", new Vector2(1115, 110), Color.Black);
             spriteBatch.DrawString(gameFont, score.ToString(), new Vector2(1125, 145), Color.Black);
 
+            //rysowanie kursora myszy
+            spriteBatch.Draw(mouseCursor, new Vector2(mouseState.X - 20, mouseState.Y - 20), Color.White);
         }
 
     }
