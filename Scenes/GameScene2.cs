@@ -96,7 +96,7 @@ namespace Arithmetic___Adventure.Scenes
             timer = 0;
 
             // załadowanie tła
-            backgroundGame = Content.Load<Texture2D>("Textures/tlo1");
+            backgroundGame = Content.Load<Texture2D>("Textures/tlo2");
             backgroundGameRect = new Rectangle(0, 0, Data.ScreenWid, Data.ScreenHei);
 
             // załadowanie grafiki z tabelką do gierki 1280 x 75 px
@@ -218,7 +218,10 @@ namespace Arithmetic___Adventure.Scenes
             {
                 Data.CurrentState = Data.Scenes.Game2;
                 timer = 0;
-                score = 0; for (int i = 0; i < LEVEL; i++)
+                score = 0;
+                sceneChange = 0;
+
+                for (int i = 0; i < LEVEL; i++)
                 {
                     brickCastle[i].isClicked = false;
                     brickCastle[i].exist = true;
@@ -377,8 +380,8 @@ namespace Arithmetic___Adventure.Scenes
 
             //ryswoanie wartości równania na pocisku
             spriteBatch.Draw(trebuchetSprite, new Vector2(Data.ScreenWid - 160 - 350 / 2, Data.ScreenHei - 210 - 257 / 2), Color.White);
-            spriteBatch.Draw(ammoSprite, new Vector2(-25 + Data.ScreenWid - 55, -25 + Data.ScreenHei - 110), Color.White);
-            spriteBatch.DrawString(ammoFont, brickCastle[randBullet].equationAnswer.ToString(), new Vector2(Data.ScreenWid - 55 - gameFont.MeasureString(brickCastle[randBullet].equationAnswer.ToString()).X / 2, -12 + Data.ScreenHei - 100 - gameFont.MeasureString(brickCastle[randBullet].equationAnswer.ToString()).Y / 2), Color.Yellow);
+            spriteBatch.Draw(ammoSprite, new Vector2(-25 + Data.ScreenWid - 55 - 30, -25 + Data.ScreenHei - 110 - 25), Color.White);
+            spriteBatch.DrawString(ammoFont, brickCastle[randBullet].equationAnswer.ToString(), new Vector2(Data.ScreenWid - 59 - gameFont.MeasureString(brickCastle[randBullet].equationAnswer.ToString()).X / 2 - 30, -13 + Data.ScreenHei - 100 - gameFont.MeasureString(brickCastle[randBullet].equationAnswer.ToString()).Y / 2 - 25), Color.White);
 
 
 

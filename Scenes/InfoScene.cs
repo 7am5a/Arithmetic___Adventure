@@ -39,11 +39,11 @@ namespace Arithmetic___Adventure.Scenes
             infoSample = Content.Load<Texture2D>("Textures/zasady");
             infoSampleRect = new Rectangle(100,50, Data.ScreenWid - 200, Data.ScreenHei - 180);
 
-            backgroundMenu = Content.Load<Texture2D>("Textures/MenuBackground1");
+            backgroundMenu = Content.Load<Texture2D>("Textures/MenuBackground2");
             backgroundMenuRect = new Rectangle(0, 0, Data.ScreenWid, Data.ScreenHei);
 
             menuButtons = Content.Load<Texture2D>($"Textures/bttnSum0"); //"$nazwa_pliku{i}" //"Textures/$bttn{i}"
-            menuButtonsRect = new Rectangle(Data.ScreenWid / 2 - menuButtons.Height / 2, 600, menuButtons.Width / 2, menuButtons.Height / 2);
+            menuButtonsRect = new Rectangle(Data.ScreenWid / 2 - menuButtons.Width /4, 600, menuButtons.Width / 2, menuButtons.Height / 2);
             
         }
 

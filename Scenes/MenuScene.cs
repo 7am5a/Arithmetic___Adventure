@@ -33,7 +33,7 @@ namespace Arithmetic___Adventure.Scenes
             // załadowanie tego powyzej do gierki
             mouseCursor = Content.Load<Texture2D>("Textures/cursor1");
 
-            backgroundMenu = Content.Load<Texture2D>("Textures/MenuBackground1");
+            backgroundMenu = Content.Load<Texture2D>("Textures/MenuBackground2");
             backgroundMenuRect = new Rectangle(0, 0, Data.ScreenWid, Data.ScreenHei);
 
             const int INCREMENT_VALUE = 125;
@@ -41,7 +41,7 @@ namespace Arithmetic___Adventure.Scenes
             for(int i = 0; i < menuButtons.Length; i++)
             {
                 menuButtons[i] = Content.Load<Texture2D>($"Textures/bttn{i}"); //"$nazwa_pliku{i}" //"Textures/$bttn{i}"
-                menuButtonsRect[i] = new Rectangle(Data.ScreenWid /2 - menuButtons[i].Height /2, 200 + INCREMENT_VALUE * i, menuButtons[i].Width /2, menuButtons[i].Height /2);
+                menuButtonsRect[i] = new Rectangle(Data.ScreenWid /2 - menuButtons[i].Width /4, 200 + INCREMENT_VALUE * i, menuButtons[i].Width /2, menuButtons[i].Height /2);
             }
         }
 
