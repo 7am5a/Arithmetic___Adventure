@@ -5,8 +5,14 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Arithmetic___Adventure.Core
 {
+    /// <summary>
+    /// Ogólna klasa do ustawienia domyślnych parametrów gry
+    /// </summary>
     public class Game1 : Game
     {
+        /// <summary>
+        /// Zmienne do obsługi grafik, okna itp.
+        /// </summary>
         //ogarnianie grafik, okna itp
         public static GraphicsDeviceManager graphics;
         //rysuwanie tego co wyzej
@@ -16,10 +22,16 @@ namespace Arithmetic___Adventure.Core
         private Texture2D backgroundMenu;
         private Rectangle backgroundMenuRect;
 
+        /// <summary>
+        /// Zarządzanie stanem gry
+        /// </summary>
         //zarządzanie stanem gry
         private GameStateManager gStateManager; 
 
         //konstruktor
+        /// <summary>
+        /// Ogólny obiekt z podstawowymi parametrami
+        /// </summary>
         public Game1()
         {
             //inicjalizacja pola graficznego
@@ -28,7 +40,9 @@ namespace Arithmetic___Adventure.Core
             //widoczny zwykły kursor myszy
             IsMouseVisible = false;
         }
-
+        /// <summary>
+        /// Inicjalizacja
+        /// </summary>
         protected override void Initialize()
         {
             // wczytanie muzyka, czcionki, sprite, tutaj wszystko, tylko raz jest robione podczas trwania programu 
@@ -41,21 +55,23 @@ namespace Arithmetic___Adventure.Core
             //podaje szerokość i wysokoćć ekrenu  jak oprostokąt?
             //graphics.GraphicsDevice.Viewport.Bounds
 
-
+            
             graphics.ApplyChanges();
-
+            
             //zamknięcie z alt + f4
             Window.AllowAltF4 = true;
-
+            
             //zmiana nazwy okna
             Window.Title = "Arithmetic Adventure";
 
-            //
+            
             gStateManager = new GameStateManager();
 
             base.Initialize();
         }
-
+        /// <summary>
+        /// Załadowanie kontentu do gry
+        /// </summary>
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -67,7 +83,10 @@ namespace Arithmetic___Adventure.Core
             gStateManager.LoadContent(Content);
 
         }
-
+        /// <summary>
+        /// Aktualizowanie elementów w grze
+        /// </summary>
+        /// <param name="gameTime"></param>
         protected override void Update(GameTime gameTime)
         {
 
@@ -82,6 +101,10 @@ namespace Arithmetic___Adventure.Core
         }
 
         //rysowanie w okienku
+        /// <summary>
+        /// Wytysowanie grafik na ekranie
+        /// </summary>
+        /// <param name="gameTime"></param>
         protected override void Draw(GameTime gameTime)
         {
             //to ważne bo co 1 fps czysci ekran z clearem
@@ -90,7 +113,6 @@ namespace Arithmetic___Adventure.Core
             //między tymi dwoma
             spriteBatch.Begin();
             gStateManager.Draw(spriteBatch);
-            //spriteBatch.Draw(backgroundMenu,backgroundMenuRect,Color.White);
 
             spriteBatch.End();
 

@@ -8,11 +8,19 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Arithmetic___Adventure.Scenes
-{
+{/// <summary>
+/// Klasa do obsługi menu gry
+/// </summary>
     internal class MenuScene : Component
     {
+        /// <summary>
+        /// Zmienna do obsługi grafiki kursora myszy
+        /// </summary>
         Texture2D mouseCursor;
         //tło
+        /// <summary>
+        /// Zmienne do obsługi tła
+        /// </summary>
         private Texture2D backgroundMenu;
         private Rectangle backgroundMenuRect;
 
@@ -20,14 +28,24 @@ namespace Arithmetic___Adventure.Scenes
         private const int MAX_BUTTONS = 3;
 
         //dodanie przycisków
+        /// <summary>
+        /// Utworzenie tablicy przycisków w menu
+        /// </summary>
         private Texture2D[] menuButtons = new Texture2D[MAX_BUTTONS];
         //stworzenie prostokąta wspierajacego tę teksturę
         private Rectangle[] menuButtonsRect = new Rectangle[MAX_BUTTONS];
 
         //dodanie myszki
+        /// <summary>
+        /// Zmienne do obsługi myszy
+        /// </summary>
         private MouseState mouseState, oldMouseState;
         private Rectangle mouseStateRect;
 
+        /// <summary>
+        /// Załadowanie grafik kursora, tła menu, oraz przycisków
+        /// </summary>
+        /// <param name="Content"></param>
         internal override void LoadContent(ContentManager Content)
         {
             // załadowanie tego powyzej do gierki
@@ -44,7 +62,10 @@ namespace Arithmetic___Adventure.Scenes
                 menuButtonsRect[i] = new Rectangle(Data.ScreenWid /2 - menuButtons[i].Width /4, 200 + INCREMENT_VALUE * i, menuButtons[i].Width /2, menuButtons[i].Height /2);
             }
         }
-
+        /// <summary>
+        /// Aktualizowanie w czasie rzeczywistym stanu przycisków i wykonywanie akcj im przypisanych
+        /// </summary>
+        /// <param name="gameTime"></param>
         internal override void Update(GameTime gameTime)
         {
             //klikanie
@@ -73,7 +94,10 @@ namespace Arithmetic___Adventure.Scenes
             }
 
         }
-
+        /// <summary>
+        /// Wyrysowanie grafik przycisków, tła oraz kursora myszy
+        /// </summary>
+        /// <param name="spriteBatch"></param>
         internal override void Draw(SpriteBatch spriteBatch)
         {
             

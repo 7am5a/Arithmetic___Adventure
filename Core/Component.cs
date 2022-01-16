@@ -7,14 +7,17 @@ using System.Text;
 
 namespace Arithmetic___Adventure.Core
 {
-   internal abstract class Component
+    /// <summary>
+    /// Klasa ogólna wykorzystywana przy tworzeniu innych klas
+    /// </summary>
+    internal abstract class Component
     {
-        //abstrakcyjne można inicjalizować, ale nie można mówić co mają robić  
+        
 
         internal abstract void LoadContent(ContentManager Content);
         internal abstract void Update(GameTime gameTime);
         internal abstract void Draw(SpriteBatch spriteBatch);
 
-        //nic więcej nie trzeba tu robić, a będzie używane dość często i gęsto jak bigos z grochem (beton)
+        
     }
 }

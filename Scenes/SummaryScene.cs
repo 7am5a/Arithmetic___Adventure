@@ -8,14 +8,22 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Arithmetic___Adventure.Scenes
-{
+{/// <summary>
+/// Scena do podsumowania wyniku i czasu gracza
+/// </summary>
     class SummaryScene : Component
     {
-
+        /// <summary>
+        /// Zmienna do obsługi tekstury kursora myszy
+        /// </summary>
         Texture2D mouseCursor;
-
+        /// <summary>
+        /// Ustawienie domyślnego wartości zmiennej poziomu
+        /// </summary>
         public static int level = 0;
-
+        /// <summary>
+        /// Ustawienie domyślnych wartości zmiennych punktów i czasu
+        /// </summary>
         public static int scoreSum1 = 0;
         public static int scoreSum2 = 0;
         public static int scoreSum3 = 0;
@@ -25,9 +33,15 @@ namespace Arithmetic___Adventure.Scenes
         public static int timeSum3 = 0;
 
         //napisy na pasku
+        /// <summary>
+        /// Zmienna do obasługi czcionki
+        /// </summary>
         private SpriteFont gameFont;
 
         //tło
+        /// <summary>
+        /// Zmienne do obsługi tła
+        /// </summary>
         private Texture2D backgroundMenu;
         private Rectangle backgroundMenuRect;
 
@@ -35,14 +49,23 @@ namespace Arithmetic___Adventure.Scenes
         private const int MAX_BUTTONS = 2;
 
         //dodanie przycisków
+        /// <summary>
+        /// Tablice przycisków
+        /// </summary>
         private Texture2D[] menuButtons = new Texture2D[MAX_BUTTONS];
         //stworzenie prostokąta wspierajacego tę teksturę
         private Rectangle[] menuButtonsRect = new Rectangle[MAX_BUTTONS];
 
         //dodanie myszki
+        /// <summary>
+        /// Zmienne do obsługi myszki
+        /// </summary>
         private MouseState mouseState, oldMouseState;
         private Rectangle mouseStateRect;
-
+        /// <summary>
+        /// Załadowanie tekstur tła, kursora, czcionki i przycisków
+        /// </summary>
+        /// <param name="Content"></param>
         internal override void LoadContent(ContentManager Content)
         {
             mouseCursor = Content.Load<Texture2D>("Textures/cursor1");
@@ -61,7 +84,10 @@ namespace Arithmetic___Adventure.Scenes
                 menuButtonsRect[i] = new Rectangle((Data.ScreenWid / 2 - menuButtons[i].Width /2 - 30) + 60 * i + menuButtons[i].Width /2 * i, 570, menuButtons[i].Width / 2, menuButtons[i].Height / 2);
             }
         }
-
+        /// <summary>
+        /// Obsługa przyciskó w czasie rzeczywistym
+        /// </summary>
+        /// <param name="gameTime"></param>
         internal override void Update(GameTime gameTime)
         {
             //klikanie
@@ -70,7 +96,7 @@ namespace Arithmetic___Adventure.Scenes
             mouseStateRect = new Rectangle(mouseState.X, mouseState.Y, 1, 1);
 
 
-            //wyjście z gry - przycisk pierwszy (1)
+            //wyjście do menu - przycisk pierwszy (1)
             if (mouseState.LeftButton == ButtonState.Pressed && mouseStateRect.Intersects(menuButtonsRect[0]))
             {
                 Data.CurrentState = Data.Scenes.Menu;
@@ -90,14 +116,12 @@ namespace Arithmetic___Adventure.Scenes
                 {
                     Data.CurrentState = Data.Scenes.Menu;
                 }
-
-            }
-                        
-            
-                        
-
+            }           
         }
-
+        /// <summary>
+        /// Wyrysowanie grafiki tła, przycisków, napisów w zależności od poziomu, który właśnie się ukończyło
+        /// </summary>
+        /// <param name="spriteBatch"></param>
         internal override void Draw(SpriteBatch spriteBatch)
         {
             //rysowanie tła

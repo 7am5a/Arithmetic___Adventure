@@ -2,6 +2,9 @@
 
 namespace Arithmetic___Adventure.Core
 {
+    /// <summary>
+    /// Głowna klasa programu
+    /// </summary>
     public static class Program
     {
         [STAThread]

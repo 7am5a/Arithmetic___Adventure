@@ -8,41 +8,75 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Arithmetic___Adventure.Scenes
-{
+{/// <summary>
+/// Druga grywalna scena
+/// </summary>
     class GameScene2 : Component
-    {
+    {/// <summary>
+     /// Zmienna do obsługi grafiki kursora
+     /// </summary>
         Texture2D mouseCursor;
+        /// <summary>
+        /// Zmienna do obsługi grafiki pocisku
+        /// </summary>
         Texture2D ammoSprite;
+        /// <summary>
+        /// Zmienna do obsługi grafiki trebusza
+        /// </summary>
         Texture2D trebuchetSprite;
 
         //zmienna do wyświetlania wyniku
+        /// <summary>
+        /// Zmienna do określania poziomu rozgrywki
+        /// </summary>
         public int level = 2;
 
+        /// <summary>
+        /// Zmienna do zmiany sceny
+        /// </summary>
         //zmienna do zmiany sceny
         int sceneChange = 0;
 
         //losowanie pocisku
+        /// <summary>
+        /// Losowanie wartości na pocisku
+        /// </summary>
         Random randBulletGen = new Random();
         int randBullet;
 
         //zmienne do punktów
+        /// <summary>
+        /// Zmienne do obsługi punktów
+        /// </summary>
         int score = 0;
         const int BASIC_SCORE_VALUE = 20;
         int preTimer = 0;
         bool mousesReleased = true;
 
+        /// <summary>
+        /// Zmienne do obsługi grafiki tła
+        /// </summary>
         //tło
         private Texture2D backgroundGame;
         private Rectangle backgroundGameRect;
 
         //tabelka
+        /// <summary>
+        /// Zmienne do obsługi grafiki dolnej tabelki z przyciskami
+        /// </summary>
         private Texture2D tabInfo;
         private Rectangle tabInfoRect;
 
         //lista z informacjami
+        /// <summary>
+        /// Zmienne do obsługi grafiki listy informacyjnej
+        /// </summary>
         private Texture2D listInfo;
         private Rectangle listInfoRect;
 
+        /// <summary>
+        /// Zmienne do obsługi czcionki gry
+        /// </summary>
         //napisy na pasku
         private SpriteFont gameFont;
         private SpriteFont ammoFont;
@@ -51,30 +85,48 @@ namespace Arithmetic___Adventure.Scenes
         //ograniczenie liczby przycisków odgórnie
         private const int MAX_BUTTONS = 3;
 
+        /// <summary>
+        /// Tablica przycisków na dolnym pasku
+        /// </summary>
         //dodanie przycisków
         private Texture2D[] menuButtons = new Texture2D[MAX_BUTTONS];
         //stworzenie prostokąta wspierajacego tę teksturę
         private Rectangle[] menuButtonsRect = new Rectangle[MAX_BUTTONS];
 
         //dodanie myszki
+        /// <summary>
+        /// Zmienne do obsługi myszki
+        /// </summary>
         private MouseState mouseState, oldMouseState;
         private Rectangle mouseStateRect;
         //-----------------------------------------
 
         //dodanie timera
+        /// <summary>
+        /// Zmienna do obsługi czasu rozgrywki
+        /// </summary>
         double timer = 0;
 
+        /// <summary>
+        /// Liczba aktywnych cegiełek - z równaniamu
+        /// </summary>
         //ustalenie liczby aktywnych cegiełek
         const int LEVEL = 35; //35+5
-        
+
         //dodanie cegieł---------------------------
         //utworzenie tablicy
+        /// <summary>
+        /// Tablica cegiełek i dodatkowych elementów bez równań
+        /// </summary>
         private Brick[] brickCastle = new Brick[LEVEL+5];
         private EquationGenerator[] eqGen = new EquationGenerator[LEVEL+5];
-        
+
 
         //-----------------------------------------
-
+        /// <summary>
+        /// Załadowanie grafik kuli, celownika (kursor myszy), trebusza, tła, cegiełek i dodatkowych elementów, przycisków, listy informacyjnej, paska i czcionek. Rozlokowanie cegiełek i dodatkowych elementów
+        /// </summary>
+        /// <param name="Content"></param>
         internal override void LoadContent(ContentManager Content)
         {
             mouseCursor = Content.Load<Texture2D>("Textures/target");
@@ -336,7 +388,10 @@ namespace Arithmetic___Adventure.Scenes
             brickCastle[39].brickRect = new Rectangle(20 + 3 + 4 * (brickCastle[39].brickTexture.Width * 2 / 3 - 4), 440 - 2 * 9 - 2 * 30 - 7, 140, 140);
 
         }
-
+        /// <summary>
+        /// Aktualizowanie w czasie rzeczywistym przycisków i ich realizacja ich funkcji, zliczanie punktów, czasu, losowanie wyników oraz wykonanie przejścia do kolejnej sceny
+        /// </summary>
+        /// <param name="gameTime"></param>
         internal override void Update(GameTime gameTime)
         {
             //menu na dole---------------------------
@@ -498,6 +553,10 @@ namespace Arithmetic___Adventure.Scenes
         }
 
         //RYSOWANIE------------------------------------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Wyrysowanie grafik kuli, celownika (kursor myszy), trebusza, tła, cegiełek i dodatkowych elementów, przycisków, listy informacyjnej, paska i czcionek. Rozlokowanie cegiełek i dodatkowych elementów
+        /// </summary>
+        /// <param name="Content"></param>
         internal override void Draw(SpriteBatch spriteBatch)
         {
 

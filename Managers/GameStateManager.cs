@@ -8,7 +8,9 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Arithmetic___Adventure.Managers
-{
+{/// <summary>
+/// Manager do zarządzania staniem gry - przejścia między scenami
+/// </summary>
     internal partial class GameStateManager : Component
     {
 
@@ -23,7 +25,10 @@ namespace Arithmetic___Adventure.Managers
 
 
 
-
+        /// <summary>
+        /// Załadowanie kontentu
+        /// </summary>
+        /// <param name="Content"></param>
         internal override void LoadContent(ContentManager Content)
         {
             ms.LoadContent(Content);
@@ -33,11 +38,11 @@ namespace Arithmetic___Adventure.Managers
             gs3.LoadContent(Content);
             ss.LoadContent(Content);
             st.LoadContent(Content);
-
-
-
         }
-
+        /// <summary>
+        /// Zaktualizowanie sceny przy urzyciu switch case
+        /// </summary>
+        /// <param name="gameTime"></param>
         internal override void Update(GameTime gameTime)
         {
             switch (Data.CurrentState)
@@ -66,7 +71,10 @@ namespace Arithmetic___Adventure.Managers
 
             }
         }
-
+        /// <summary>
+        /// Wyrysowanie odpowiedniej sceny w zależności od wyboru
+        /// </summary>
+        /// <param name="spriteBatch"></param>
         internal override void Draw(SpriteBatch spriteBatch)
         {
             switch (Data.CurrentState)

@@ -7,20 +7,34 @@ using System.Text;
 
 namespace Arithmetic___Adventure.Core
 {
+    /// <summary>
+    /// Klasa do generowania równań na cegiełkach
+    /// </summary>
     class EquationGenerator : Component
     {
+        /// <summary>
+        /// Zmienna do wyznaczenia poziomu trudności
+        /// </summary>
         public int gameLevel;
+        /// <summary>
+        /// Zmienna do przekazania wartości równania w stringu
+        /// </summary>
         public string UPgeneratedEquation;
 
+        /// <summary>
+        /// Metoda do wygenerowania równania
+        /// </summary>
+        /// <param name="_gameLevel">Opisany wcześniej - wyznaczenie poziomu trudności, czyli zaawansowania generowanych równań</param>
+        /// <returns></returns>
         public int GenereEQ(int _gameLevel)
         {
             
             gameLevel = _gameLevel;
-
+            
             Random randomNumberGenerator = new Random();
             int num1;
             string num1String;
-
+            
             int num2;
             string num2String;
 
@@ -29,7 +43,7 @@ namespace Arithmetic___Adventure.Core
 
             string generatedEquation;
             int equationAnswer = 0;
-
+            
             //generowanie losowych cyfr elementów działania matematycznego
             num1 = randomNumberGenerator.Next(1, 11);
             num2 = randomNumberGenerator.Next(1, 11);
@@ -47,7 +61,7 @@ namespace Arithmetic___Adventure.Core
             {
                 symbol = randomNumberGenerator.Next(0, 3);
             }
-
+            
             //zabezpieczenie przed dodawaniem zbyt dużych liczb
             for (int i = 1; i > 0;)
             {
@@ -60,7 +74,7 @@ namespace Arithmetic___Adventure.Core
                     i = 0;
                 }
             }
-
+            
             //zabezpieczneie przed wylosowaniem działania (odejmowanie) dającego ujemny wynik
             for (int i = 1; i > 0;)
             {
@@ -124,7 +138,7 @@ namespace Arithmetic___Adventure.Core
             {
                 equationAnswer = num1 * num2;
             }
-
+            
             generatedEquation = num1String + " " + symbolString + " " + num2String;
             UPgeneratedEquation = generatedEquation;
             //potrzebne dane to:
@@ -135,6 +149,10 @@ namespace Arithmetic___Adventure.Core
             return equationAnswer;
         }
 
+        /// <summary>
+        /// Zwrócenie stinga z szukanym równaniem
+        /// </summary>
+        /// <returns>Zwraca wartość stringa</returns>
         public string StringEQ()
         {
             return UPgeneratedEquation;

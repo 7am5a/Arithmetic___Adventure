@@ -8,21 +8,38 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace Arithmetic___Adventure.Scenes
-{
+{/// <summary>
+/// Klasa wypisująca teksty fabulkarne w przejściach między scenami gry
+/// </summary>
     class StoryScene : Component
     {
 
         //zmienna do zabezpieczenia przed zbyt szybkim przyspieszeniem scenki fabularnej
+        /// <summary>
+        /// Zmienna czasu - zabezpieczenie przed zbyt szybkim pominięciem
+        /// </summary>
         public static double timerSecurity = 0;
+        /// <summary>
+        /// Zmienna czasu - służy do przewinięcia tekstu i przełączenia między scenami
+        /// </summary>
         public static double sceneTimer = 0;
 
         //zmienna do sterowania wyświetlaniem kontentu
+        /// <summary>
+        /// Zmienna do sterowania wyświetaniem kontentu
+        /// </summary>
         public static int level = 0;
         //tło
+        /// <summary>
+        /// Zmienne do obsługi tła
+        /// </summary>
         private Texture2D backgroundMenu;
         private Rectangle backgroundMenuRect;
 
         //dodanie tekstu
+        /// <summary>
+        /// Zmienne do obsługi teksów fabularnych
+        /// </summary>
         private Texture2D scene1a;
         private Rectangle scene1aRect;
         private Texture2D scene1b;
@@ -37,9 +54,16 @@ namespace Arithmetic___Adventure.Scenes
         private Rectangle scene4bRect;
 
         //dodanie myszki
+        /// <summary>
+        /// Zmienne do obsługi myszki
+        /// </summary>
         private MouseState mouseState, oldMouseState;
         private Rectangle mouseStateRect;
 
+        /// <summary>
+        /// Załadowanie grafik fabularnych i tła sceny
+        /// </summary>
+        /// <param name="Content"></param>
         internal override void LoadContent(ContentManager Content)
         {
             // załadowanie tego powyzej do gierki
@@ -59,7 +83,10 @@ namespace Arithmetic___Adventure.Scenes
             scene4b = Content.Load<Texture2D>("Textures/Scene4b");
             scene4bRect = new Rectangle(200, 100, Data.ScreenWid - 400, Data.ScreenHei - 200);
         }
-
+        /// <summary>
+        /// Aktualizowanie w czasie rzeczywistym timerów oraz obsługa zmian sceny
+        /// </summary>
+        /// <param name="gameTime"></param>
         internal override void Update(GameTime gameTime)
         {
             timerSecurity = timerSecurity + gameTime.ElapsedGameTime.TotalSeconds;
@@ -102,7 +129,10 @@ namespace Arithmetic___Adventure.Scenes
             }
 
         }
-
+        /// <summary>
+        /// Wyrysowanie grafik fabularnych i tła
+        /// </summary>
+        /// <param name="spriteBatch"></param>
         internal override void Draw(SpriteBatch spriteBatch)
         {
 
