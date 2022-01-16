@@ -46,7 +46,6 @@ namespace Arithmetic___Adventure.Scenes
         //napisy na pasku
         private SpriteFont gameFont;
         private SpriteFont ammoFont;
-        //private Rectangle gameNameRect;
 
         //menu na dole--------------------------------
         //ograniczenie liczby przycisków odgórnie
@@ -65,7 +64,7 @@ namespace Arithmetic___Adventure.Scenes
         //dodanie timera
         double timer = 0;
 
-        //było 49 jbc
+        //ustalenie liczby aktywnych cegiełek
         const int LEVEL = 31; //31 + 6 pustych
         
         
@@ -73,7 +72,6 @@ namespace Arithmetic___Adventure.Scenes
         //utworzenie tablicy
         private Brick[] brickCastle = new Brick[LEVEL+4];
         private EquationGenerator[] eqGen = new EquationGenerator[LEVEL+4];
-        //private Ammo[] ammo = new Ammo[LEVEL];
         //-----------------------------------------
 
         internal override void LoadContent(ContentManager Content)
@@ -90,6 +88,7 @@ namespace Arithmetic___Adventure.Scenes
             SummaryScene.scoreSum3 = 0;
             SummaryScene.level = 0;
 
+            //wyzerowanie timera
             timer = 0;
 
             // załadowanie tła
@@ -152,7 +151,7 @@ namespace Arithmetic___Adventure.Scenes
                     //rysowanie nieparzystych rzędów (liczymy od 0 :p)
                     if (brickLvlUp % 2 == 1)
                     {
-                        brickCastle[i].brickRect = new Rectangle(70 + 7 * (i % 5) + ((i % 5) * brickCastle[i].brickTexture.Width * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30, 140, 40);
+                        brickCastle[i].brickRect = new Rectangle(70 + 7 * (brickLicznik % 5) + ((brickLicznik % 5) * brickCastle[i].brickTexture.Width * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30, 140, 40);
                         brickLicznik += 1;
 
                         if (brickLicznik == 5)
@@ -255,6 +254,7 @@ namespace Arithmetic___Adventure.Scenes
                     brickCastle[i].equation = eqGen[i].StringEQ();
                 }
             }
+            //dorysowanie pustych elementów
 
             brickCastle[31].brickRect = new Rectangle(280 + 3, 535 - 2 * 9 - 2 * 30, 140, 40);
             brickCastle[32].brickRect = new Rectangle(320 + 3 * 2 + (brickCastle[32].brickTexture.Width * 2 / 3), 535 - 2 * 9 - 2 * 30, 140, 40);
@@ -276,7 +276,7 @@ namespace Arithmetic___Adventure.Scenes
             //wejscie do menu
             if (mouseState.LeftButton == ButtonState.Pressed && mouseStateRect.Intersects(menuButtonsRect[0]))
             {
-                Data.CurrentState = Data.Scenes.Menu;
+                Data.CurrentState = Data.Scenes.Menu;                
             }
             //wyjście z gry - przycisk drugi (2)
             else if (mouseState.LeftButton == ButtonState.Pressed && mouseStateRect.Intersects(menuButtonsRect[1]))
@@ -319,6 +319,7 @@ namespace Arithmetic___Adventure.Scenes
                     //skiknięcie w pusty obiekt
                     if(i >= LEVEL && mouseStateRect.Intersects(brickCastle[i].brickRect) && brickCastle[i].isClicked == false)
                     {
+                        
                         //zabezpieczenie przed multiclickiem
                         mousesReleased = false;
 
@@ -327,6 +328,15 @@ namespace Arithmetic___Adventure.Scenes
 
                         //inkrementacja zmiennej wykorzystywanej do zmiany sceny                        
                         sceneChange++;
+
+                        //zabezpieczenie przed nieskończonym losowaniem wyniku
+                        if (sceneChange != LEVEL + 4)
+                        {
+                            while (brickCastle[randBullet].exist == false && sceneChange != LEVEL)
+                            {
+                                randBullet = randBulletGen.Next(0, LEVEL);
+                            }
+                        }
                     }
 
                     //zdobycie punktu, gdy wynik się zgadza
@@ -370,14 +380,13 @@ namespace Arithmetic___Adventure.Scenes
                         //zabezpieczenie przed nieskończonym losowaniem wyniku
                         if(sceneChange != LEVEL+4)
                         {
-                            while (brickCastle[randBullet].exist == false && sceneChange != LEVEL)
+                            while (brickCastle[randBullet].exist == false && sceneChange != LEVEL+4)
                             {
                                 randBullet = randBulletGen.Next(0, LEVEL);
                             }
                         }
-                        
-
                     }
+                    
                 }
             }
 

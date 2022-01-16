@@ -66,14 +66,13 @@ namespace Arithmetic___Adventure.Scenes
         //dodanie timera
         double timer = 0;
 
-
-        const int LEVEL = 11;
-        const int LEVEL_X = 6;
-        const int LEVEL_Y = 10;
+        //ustalenie liczby aktywnych cegiełek
+        const int LEVEL = 38; //38+5
+        
         //dodanie cegieł---------------------------
         //utworzenie tablicy
-        private Brick[] brickCastle = new Brick[LEVEL];
-        private EquationGenerator[] eqGen = new EquationGenerator[LEVEL];
+        private Brick[] brickCastle = new Brick[LEVEL+5];
+        private EquationGenerator[] eqGen = new EquationGenerator[LEVEL+5];
 
 
         //-----------------------------------------
@@ -134,49 +133,220 @@ namespace Arithmetic___Adventure.Scenes
 
 
 
-            for (int i = 0; i < LEVEL; i++)
+            for (int i = 0; i < LEVEL+5; i++)
             {
                 brickCastle[i] = new Brick(false, true);
                 eqGen[i] = new EquationGenerator();
 
-                randBrick = randBrickGen.Next(1, 4);
-                brickCastle[i].brickTexture = Content.Load<Texture2D>($"Textures/ceg{randBrick}");
-
-                //rysowanie nieparzystych rzędów (liczymy od 0 :p)
-                if (brickLvlUp % 2 == 0)
+                if (i >= LEVEL)
                 {
-                    brickCastle[i].brickRect = new Rectangle(250 + 7 * (i % 5) + ((i % 5) * brickCastle[i].brickTexture.Width * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30, 140, 40);
-                    brickLicznik += 1;
-
-                    if (brickLicznik == 5)
+                    if(i == 38 || i == 39)
                     {
-                        brickLvlUp += 1;
-                        brickLicznik = 0;
-                    }
-                }
-                //rysowanie parzystych rzędów----------------
-                else if (brickLvlUp % 2 == 1)
-                {
-                    if (brickLicznik == 0)
-                    {
-                        brickCastle[i].brickRect = new Rectangle(250 + 7 * (brickLicznik % 6) + ((brickLicznik % 6) * brickCastle[i].brickTexture.Width * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30, 70, 40);
-                        brickLicznik += 1;
-                    }
-                    else if (brickLicznik == 5)
-                    {
-                        brickCastle[i].brickRect = new Rectangle(180 + 3 + 7 * (brickLicznik % 6) + ((brickLicznik % 6) * brickCastle[i].brickTexture.Width * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30, 70, 40);
-                        brickLicznik += 1;
-
-                        if (brickLicznik == 6)
-                        {
-                            brickLvlUp += 1;
-                            brickLicznik = 0;
-                        }
+                        brickCastle[i].brickTexture = Content.Load<Texture2D>("Textures/dach");
                     }
                     else
                     {
-                        brickCastle[i].brickRect = new Rectangle(180 + 7 * (brickLicznik % 6) + ((brickLicznik % 6) * brickCastle[i].brickTexture.Width * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30, 140, 40);
-                        brickLicznik += 1;
+                        brickCastle[i].brickTexture = Content.Load<Texture2D>("Textures/murek");
+                    }
+                }
+                else
+                {
+                    randBrick = randBrickGen.Next(1, 5);
+                    brickCastle[i].brickTexture = Content.Load<Texture2D>($"Textures/ceg{randBrick}");
+                }
+
+                //rysowanie lewej wieży 
+                if (i <= 11)
+                {
+                    //rysowanie nieparzystych rzędów (liczymy od 0 :p)
+                    if (brickLvlUp % 2 == 0)
+                    {
+                        if (brickLicznik == 0)
+                        {
+                            brickCastle[i].brickRect = new Rectangle(5 + 7 * (brickLicznik % 3) + ((brickLicznik % 3) * brickCastle[i].brickTexture.Width * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30-20, 70, 40);
+                            brickLicznik += 1;
+                        }
+                        else if(brickLicznik == 2)
+                        {
+                            brickCastle[i].brickRect = new Rectangle(-65 + 7 * (brickLicznik % 3) + ((brickLicznik % 3) * brickCastle[i].brickTexture.Width * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30-20, 140, 40);
+                            brickLicznik += 1;
+
+                            if (brickLicznik == 3)
+                            {
+                                brickLvlUp += 1;
+                                brickLicznik = 0;
+                            }
+                        }
+                        else
+                        {
+                            brickCastle[i].brickRect = new Rectangle(-65 + 7 * (brickLicznik % 3) + ((brickLicznik % 3) * brickCastle[i].brickTexture.Width * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30-20, 140, 40);
+                            brickLicznik += 1;
+                        }
+                    }
+                    //rysowanie parzystych rzędów----------------
+                    else if (brickLvlUp % 2 == 1)
+                    {
+                        if (brickLicznik == 0)
+                        {
+                            brickCastle[i].brickRect = new Rectangle(5 + 7 * (brickLicznik % 3) + ((brickLicznik % 3) * brickCastle[i].brickTexture.Width * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30-20, 140, 40);
+                            brickLicznik += 1;
+                        }
+                        else if (brickLicznik == 2)
+                        {                            
+                            brickCastle[i].brickRect = new Rectangle(5 + 7 * (brickLicznik % 3) + ((brickLicznik % 3) * brickCastle[i].brickTexture.Width * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30-20, 70, 40);
+                            brickLicznik += 1;
+
+                            if (brickLicznik == 3)
+                            {
+                                brickLvlUp += 1;
+                                brickLicznik = 0;
+                            }
+                        }
+                        else
+                        {
+                            brickCastle[i].brickRect = new Rectangle(5 + 7 * (brickLicznik % 3) + ((brickLicznik % 3) * brickCastle[i].brickTexture.Width * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30-20, 140, 40);
+                            brickLicznik += 1;
+                        }
+                    }
+                }
+                else if(i <= 17)
+                {
+                    if (brickLvlUp % 2 == 0)
+                    {
+                        if (brickLicznik == 0)
+                        {
+                            brickCastle[i].brickRect = new Rectangle(5 + 7 * (brickLicznik % 2) + ((brickLicznik % 2) * brickCastle[i].brickTexture.Width * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30-20, 70, 40);
+                            brickLicznik += 1;
+
+                        }
+                        else if (brickLicznik == 1)
+                        {
+                            brickCastle[i].brickRect = new Rectangle(-65 + 3 + 7 * (brickLicznik % 2) + ((brickLicznik % 2) * brickCastle[i].brickTexture.Width * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30-20, 140, 40);
+                            brickLicznik += 1;
+
+                            if (brickLicznik == 2)
+                            {
+                                brickLvlUp += 1;
+                                brickLicznik = 0;
+                            }
+                        }
+                    }
+                    else if (brickLvlUp % 2 == 1)
+                    {
+                        if (brickLicznik == 0)
+                        {                            
+                            brickCastle[i].brickRect = new Rectangle(5  + 7 * (brickLicznik % 2) + ((brickLicznik % 2) * brickCastle[i].brickTexture.Width * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30 - 20, 140, 40);
+                            brickLicznik += 1;
+                        }
+                        else if (brickLicznik == 1)
+                        {
+                            brickCastle[i].brickRect = new Rectangle(5 + 3 + 7 * (brickLicznik % 2) + ((brickLicznik % 2) * brickCastle[i].brickTexture.Width * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30 - 20, 70, 40);
+                            brickLicznik += 1;
+
+                            if (brickLicznik == 2)
+                            {
+                                brickLvlUp += 1;
+                                brickLicznik = 0;
+                            }
+                        }
+                    }
+                }
+                //rysowanie prawej wieży 
+                else if(i <= 29)
+                {
+                    if (i == 18)
+                        brickLvlUp = 0;
+
+                    if (brickLvlUp % 2 == 0)
+                    {
+                        if (brickLicznik == 0)
+                        {
+                            brickCastle[i].brickRect = new Rectangle(380+5 + 7 * (brickLicznik % 4) + ((brickLicznik % 4) * brickCastle[i].brickTexture.Width * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30 - 20, 70, 40);
+                            brickLicznik += 1;
+
+                        }
+                        else if (brickLicznik == 3)
+                        {
+                            brickCastle[i].brickRect = new Rectangle(380 - 65 + 3 + 7 * (brickLicznik % 4) + ((brickLicznik % 4) * brickCastle[i].brickTexture.Width * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30 - 20, 140, 40);
+                            brickLicznik += 1;
+
+                            if (brickLicznik == 4)
+                            {
+                                brickLvlUp += 1;
+                                brickLicznik = 0;
+                            }
+                        }
+                        else
+                        {
+                            brickCastle[i].brickRect = new Rectangle(380 - 65 + 3 + 7 * (brickLicznik % 4) + ((brickLicznik % 4) * brickCastle[i].brickTexture.Width * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30 - 20, 140, 40);
+                            brickLicznik += 1;
+                        }
+                    }
+                    else if (brickLvlUp % 2 == 1)
+                    {
+                        if (brickLicznik == 0)
+                        {
+                            brickCastle[i].brickRect = new Rectangle(380 + 5 + 7 * (brickLicznik % 4) + ((brickLicznik % 4) * brickCastle[i].brickTexture.Width * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30 - 20, 140, 40);
+                            brickLicznik += 1;
+                        }
+                        else if (brickLicznik == 3)
+                        {
+                            brickCastle[i].brickRect = new Rectangle(380 + 5 +3+ 7 * (brickLicznik % 4) + ((brickLicznik % 4) * brickCastle[i].brickTexture.Width * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30 - 20, 70, 40);
+                            brickLicznik += 1;
+
+                            if (brickLicznik == 4)
+                            {
+                                brickLvlUp += 1;
+                                brickLicznik = 0;
+                            }
+                        }
+                        else
+                        {
+                            brickCastle[i].brickRect = new Rectangle(380 + 5 + 3 + 7 * (brickLicznik % 4) + ((brickLicznik % 4) * brickCastle[i].brickTexture.Width * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30 - 20, 140, 40);
+                            brickLicznik += 1;
+                        }
+                    }
+                }
+                else if(i <= 37)
+                {
+                    if (brickLvlUp % 2 == 0)
+                    {
+                        if (brickLicznik == 0)
+                        {
+                            brickCastle[i].brickRect = new Rectangle(380 +143 + 5 + 7 * (brickLicznik % 2) + ((brickLicznik % 2) * brickCastle[i].brickTexture.Width * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30 - 20, 70, 40);
+                            brickLicznik += 1;
+
+                        }
+                        else if (brickLicznik == 1)
+                        {
+                            brickCastle[i].brickRect = new Rectangle(315 + 143 + 3 + 7 * (brickLicznik % 2) + ((brickLicznik % 2) * brickCastle[i].brickTexture.Width * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30 - 20, 140, 40);
+                            brickLicznik += 1;
+
+                            if (brickLicznik == 2)
+                            {
+                                brickLvlUp += 1;
+                                brickLicznik = 0;
+                            }
+                        }
+                    }
+                    else if (brickLvlUp % 2 == 1)
+                    {
+                        if (brickLicznik == 0)
+                        {
+                            brickCastle[i].brickRect = new Rectangle(380 + 143 + 5 + 7 * (brickLicznik % 2) + ((brickLicznik % 2) * brickCastle[i].brickTexture.Width * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30 - 20, 140, 40);
+                            brickLicznik += 1;
+                        }
+                        else if (brickLicznik == 1)
+                        {
+                            brickCastle[i].brickRect = new Rectangle(380 + 143 + 5 + 3 + 7 * (brickLicznik % 2) + ((brickLicznik % 2) * brickCastle[i].brickTexture.Width * 2 / 3), 535 - brickLvlUp * 9 - brickLvlUp * 30 - 20, 70, 40);
+                            brickLicznik += 1;
+
+                            if (brickLicznik == 2)
+                            {
+                                brickLvlUp += 1;
+                                brickLicznik = 0;
+                            }
+                        }
                     }
                 }
 
@@ -186,10 +356,17 @@ namespace Arithmetic___Adventure.Scenes
                     brickCastle[i].equationAnswer = eqGen[i].GenereEQ(3);
                     brickCastle[i].equation = eqGen[i].StringEQ();
                 }
-
-
-
             }
+
+            //dorysowanie pustych elementów
+            //daszek
+            brickCastle[38].brickRect = new Rectangle(5, 535 - 9 * 9 - 9 * 30 - 45, 217, 140);
+            brickCastle[39].brickRect = new Rectangle(5 + 380 + 143, 535 - 9 * 9 - 9 * 30 - 45, 217, 140);
+            //murek
+            brickCastle[40].brickRect = new Rectangle(215 + 3, 535 - 4 * 9 - 4 * 30 - 20, 140, 40);
+            brickCastle[41].brickRect = new Rectangle(5 + 380, 535 - 3 * 9 - 3 * 30 - 20, 140, 40);
+            brickCastle[42].brickRect = new Rectangle(5 + 380 + 356, 535 - 3 * 9 - 3 * 30 - 20, 140, 40); //czy te-45 czy -25
+
         }
 
         internal override void Update(GameTime gameTime)
@@ -218,7 +395,7 @@ namespace Arithmetic___Adventure.Scenes
                 score = 0;
                 sceneChange = 0;
 
-                for (int i = 0; i < LEVEL; i++)
+                for (int i = 0; i < LEVEL+5; i++)
                 {
                     brickCastle[i].isClicked = false;
                     brickCastle[i].exist = true;
@@ -239,17 +416,35 @@ namespace Arithmetic___Adventure.Scenes
             //wystrzelenie, jeśli wynik się zgadza to + pkt
             if (mouseState.LeftButton == ButtonState.Pressed && mousesReleased == true)
             {
-                for (int i = 0; i < LEVEL; i++)
+                for (int i = 0; i < LEVEL+5; i++)
                 {
 
-                    if (brickCastle[randBullet].exist == false)
+                    //skiknięcie w pusty obiekt
+                    if (i >= LEVEL && mouseStateRect.Intersects(brickCastle[i].brickRect) && brickCastle[i].isClicked == false)
                     {
-                        randBullet = randBulletGen.Next(0, LEVEL);
+                        
+                        //zabezpieczenie przed multiclickiem
+                        mousesReleased = false;
+
+                        brickCastle[i].isClicked = true;
+                        brickCastle[i].exist = false;
+
+                        //inkrementacja zmiennej wykorzystywanej do zmiany sceny                        
+                        sceneChange++;
+
+                        //zabezpieczenie przed nieskończonym losowaniem wyniku
+                        if (sceneChange != LEVEL + 5)
+                        {
+                            while (brickCastle[randBullet].exist == false && sceneChange != LEVEL)
+                            {
+                                randBullet = randBulletGen.Next(0, LEVEL);
+                            }
+                        }
                     }
+
                     //zdobycie punktu, gdy wynik się zgadza
                     else if (mouseStateRect.Intersects(brickCastle[i].brickRect) && brickCastle[i].isClicked == false && brickCastle[randBullet].equationAnswer == brickCastle[i].equationAnswer)
                     {
-                        //losowanie następnego wyniku
                         randBullet = randBulletGen.Next(0, LEVEL);
 
                         //przyznanie punktów w zależności od czasu
@@ -283,15 +478,18 @@ namespace Arithmetic___Adventure.Scenes
                         brickCastle[i].exist = false;
 
                         //inkrementacja zmiennej wykorzystywanej do zmiany sceny                        
-                        if (brickCastle[i].exist == false)
+                        sceneChange++;
+
+                        //zabezpieczenie przed nieskończonym losowaniem wyniku
+                        if (sceneChange != LEVEL + 5)
                         {
-                            sceneChange++;
+                            while (brickCastle[randBullet].exist == false && sceneChange != LEVEL+5)
+                            {
+                                randBullet = randBulletGen.Next(0, LEVEL);
+                            }
                         }
 
-                        while (brickCastle[randBullet].exist == false && sceneChange != LEVEL)
-                        {
-                            randBullet = randBulletGen.Next(0, LEVEL);
-                        }
+
                     }
                 }
             }
@@ -304,7 +502,7 @@ namespace Arithmetic___Adventure.Scenes
             //------------------------------------------------------------------------------------------------------------
 
             //zmiana sceny po zniknięciu wszystkich cegiełek
-            if (sceneChange == LEVEL)
+            if (sceneChange == LEVEL+5)
             {
                 SummaryScene.scoreSum3 = score;
                 SummaryScene.timeSum3 = (int)timer;
@@ -326,6 +524,7 @@ namespace Arithmetic___Adventure.Scenes
                 }
                 sceneChange = 0;
 
+                //zmiana sceny
                 Data.CurrentState = Data.Scenes.Story;
             }
 
@@ -363,12 +562,16 @@ namespace Arithmetic___Adventure.Scenes
             //-------------------------------------------------------
 
             //rysowanie cegieł
-            for (int i = 0; i < LEVEL; i++)
+            for (int i = 0; i < LEVEL + 5; i++)
             {
-                if (brickCastle[i].exist == true)
+                if (brickCastle[i].exist == true && i < LEVEL)
                 {
                     spriteBatch.Draw(brickCastle[i].brickTexture, brickCastle[i].brickRect, Color.White);
                     spriteBatch.DrawString(gameFont, brickCastle[i].equation, new Vector2(brickCastle[i].brickRect.X + brickCastle[i].brickRect.Width / 2 - (gameFont.MeasureString(brickCastle[i].equation).X) / 2, brickCastle[i].brickRect.Y + (gameFont.MeasureString(brickCastle[i].equation).Y) / 2), Color.White);
+                }
+                else if (brickCastle[i].exist == true && i >= LEVEL)
+                {
+                    spriteBatch.Draw(brickCastle[i].brickTexture, brickCastle[i].brickRect, Color.White);
                 }
             }
 
